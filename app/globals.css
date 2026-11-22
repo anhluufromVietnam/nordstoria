@@ -1,15 +1,27 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap');
+@font-face { font-family: 'Syne Viet'; src: url('/fonts/SyneViet-700.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Syne Viet'; src: url('/fonts/SyneViet-800.woff2') format('woff2'); font-weight: 800; font-display: swap; }
 
 :root {
-  --ink: #25231f;
-  --muted: #89867e;
-  --paper: #f5f3ef;
-  --line: #e7e4dd;
-  --olive: #767359;
-  --gold: #c4a36b;
-  --serif: "Playfair Display", Georgia, serif;
-  --sans: "DM Sans", Arial, sans-serif;
-  --mono: "DM Mono", monospace;
+  /* Nord Storia 4 core colors (brand-guidelines.html) */
+  --bone: #efebe3;
+  --ink: #101012;
+  --blue: #2036f5;
+  --glacier: #a8bfc9;
+  --red: #e8442d;
+  --amber: #f2a93b;
+  --moss: #667052;
+  --fjord: #232e40;
+  --muted: #6f6b62;
+  --paper: #efebe3;
+  --line: rgba(16,16,18,.16);
+  --olive: #2036f5;
+  --gold: #a8bfc9;
+  /* Type roles: Display Syne Viet, Body Space Grotesk (keep old tokens) */
+  --serif: "Syne Viet", "Syne", "Space Grotesk", Arial, sans-serif;
+  --sans: "Space Grotesk", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --mono: "Space Grotesk", "DM Mono", monospace;
+  --display: "Syne Viet", "Syne", "Space Grotesk", Arial, sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -536,3 +548,25 @@ h1 em,.campaign-title h2 em,.audience-panel h2 em { font-family: var(--serif); f
 .app-card p, .app-card li { font:400 14px/1.6 var(--sans); color:#555; }
 .app-card a { color:var(--blue); font-weight:600; }
 @media (max-width:800px) { .app-grid { grid-template-columns:1fr; } }
+
+/* ===== Nord Storia brand alignment (basic-markup.vercel.app) ===== */
+h1, h2, h3, .landing-hero h1, .landing-section h2, .app-card h3 {
+  font-family: var(--display);
+  letter-spacing: -.025em;
+}
+h1 em, h2 em, .landing-section h2 em { font-style: normal; color: var(--blue); }
+.landing { background: var(--bone); color: var(--ink); }
+.landing-hero { border-bottom: 1px solid var(--ink); }
+.landing-hero h1 { text-transform: uppercase; font-weight: 800; letter-spacing: -.04em; }
+.landing-kicker { color: var(--blue); letter-spacing: .14em; text-transform: uppercase; font-weight: 500; }
+.landing-card, .app-card { border-radius: 0; transition: background .3s, color .3s; }
+.landing-card:hover, .app-card:hover { background: var(--ink); color: var(--bone); }
+.landing-card:hover p, .landing-card:hover h3 { color: var(--bone); }
+.app-card:hover p, .app-card:hover h3 { color: var(--bone); }
+.landing-btn-dark { background: var(--ink); }
+.landing-btn-dark:hover { background: var(--blue); }
+.landing-footer { border-top: 1px solid var(--ink); }
+::selection { background: var(--blue); color: var(--bone); }
+/* Brand lockup: Syne 800 + endorse line */
+.brand-lockup-word { font-family: var(--display); font-weight: 800; letter-spacing: .04em; }
+.app-shell, .studio-page, .feed-page { background: var(--bone); }

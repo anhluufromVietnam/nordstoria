@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "VyIQ × Nord Storia AI Studio",
+  title: "VyIQ — AI Media Intelligence Studio | Nord Storia",
   description:
-    "Step inside an AI-powered creative studio and turn your look into a live campaign.",
+    "Cold stories, told bright. VyIQ: AI Media Intelligence Studio — create, manage, monitor and optimize campaigns in one place. Thuộc Công ty Tâm Việt Quang.",
 };
 
 export default function RootLayout({
@@ -13,7 +13,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="vi">
       <body>{children}</body>
     </html>
   );
