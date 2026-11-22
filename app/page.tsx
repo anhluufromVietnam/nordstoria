@@ -1,236 +1,387 @@
-import type { Metadata } from "next";
+"use client";
 
-export const metadata: Metadata = {
-  title: "VyIQ — AI Media Intelligence Studio",
-  description:
-    "VyIQ: AI Media Intelligence Studio. AI-powered platform to create, manage, monitor and optimize marketing campaigns in one integrated environment.",
-};
+import { useEffect, useRef, useState } from "react";
 
-const capabilities = [
-  {
-    title: "Creative Production",
-    body: "Generative AI for campaign concepts, branded visual production, creative adaptation and marketing content — powered by Muse Image.",
-  },
-  {
-    title: "Campaign Management",
-    body: "Campaign concepts, creative direction, content production, social media, digital advertising, performance marketing and promotions — coordinated in one place.",
-  },
-  {
-    title: "Performance Intelligence",
-    body: "Consolidated campaign performance, AI-generated insights and recommendations, and measurable continuous optimisation — not just end-of-campaign reports.",
-  },
-  {
-    title: "Brand Consistency",
-    body: "Brand guidelines, communication principles, visual direction and campaign frameworks so every product, channel, team and location stays on-brand.",
-  },
-  {
-    title: "Knowledge Base",
-    body: "A searchable knowledge base from historical campaigns. Reuse what worked, reduce repetitive work, make faster data-driven decisions.",
-  },
-  {
-    title: "Experimentation",
-    body: "Test audiences, messages, channels and creatives — then adjust campaign direction based on measurable results.",
-  },
+const workflow = [
+  { n: "01", t: "Pick your product", d: "Jacket, bag, sneakers…", img: "/Demo/Jacket.jpg" },
+  { n: "02", t: "Describe the look", d: "One sentence is enough", img: "/campaigns/tokyo-night.jpg" },
+  { n: "03", t: "Get the campaign", d: "Photo + caption, ready to post", img: "/campaigns/quiet-luxury.jpg" },
 ];
 
-const ecosystem = [
-  {
-    name: "Nord Storia",
-    tag: "Brand & Media Strategy",
-    body: "Brand positioning, guidelines, communication strategy, campaign planning, creative direction, social, digital and performance marketing, media operations.",
-  },
-  {
-    name: "VyIQ AI & Enterprise Solutions",
-    tag: "Campaign Intelligence",
-    body: "AI-powered campaign intelligence, workflow automation, business dashboards, knowledge management, performance analysis and intelligent recommendations.",
-  },
-  {
-    name: "VyIQ × Nord Storia AI Studio",
-    tag: "Generative AI",
-    body: "Campaign concepts, branded visual production with Muse Image, creative adaptation and marketing content development.",
-  },
-  {
-    name: "TVIQ Technology Solutions",
-    tag: "Digital Platforms",
-    body: "Digital platforms, enterprise applications, system integration and centralised operational management.",
-  },
-  {
-    name: "Robotics & IoT",
-    tag: "Connected Experiences",
-    body: "Extend campaign experiences into physical retail, connected stores and interactive customer experiences.",
-  },
+const collections = [
+  { label: "Tokyo Night", tag: "Neon · cinematic", img: "/campaigns/tokyo-night.jpg", metric: "Live · 4 channels · +18%" },
+  { label: "Urban Street", tag: "Raw · expressive", img: "/campaigns/urban-street.jpg", metric: "Planning · 3 creatives A/B" },
+  { label: "Quiet Luxury", tag: "Soft · elevated", img: "/campaigns/quiet-luxury.jpg", metric: "Testing · +24% vs benchmark" },
+  { label: "Summer Escape", tag: "Sunlit · free", img: "/campaigns/summer-escape.jpg", metric: "Live · localised per store" },
+];
+
+const tools = [
+  { n: "01", t: "Product Screenshot", d: "Text to packshot. One sentence in, a studio photo out.", href: "/studio" },
+  { n: "02", t: "Virtual Try-On", d: "Person + garment, one photorealistic photo.", href: "/studio" },
+  { n: "03", t: "Campaign", d: "Concept, image and caption + hashtags in one click.", href: "/studio" },
+  { n: "04", t: "Dashboard", d: "Performance, channels and AI recommendations.", href: "/studio/dashboard" },
+  { n: "05", t: "Knowledge Base", d: "Search past campaigns. Reuse what worked.", href: "/studio/knowledge" },
+];
+
+const pillars = [
+  { name: "Nord Storia", tag: "Brand & Media Strategy", body: "Brand positioning, guidelines, communication strategy, campaign planning, creative direction, social, digital and performance marketing, media operations." },
+  { name: "VyIQ AI & Enterprise Solutions", tag: "Campaign Intelligence", body: "AI-powered campaign intelligence, workflow automation, business dashboards, knowledge management, performance analysis and intelligent recommendations." },
+  { name: "VyIQ × Nord Storia AI Studio", tag: "Generative AI", body: "Campaign concepts, branded visual production with Muse Image, creative adaptation and marketing content development." },
+  { name: "TVIQ Technology Solutions", tag: "Digital Platforms", body: "Digital platforms, enterprise applications, system integration and centralised operational management." },
+  { name: "Robotics & IoT", tag: "Connected Experiences", body: "Extend campaign experiences into physical retail, connected stores and interactive customer experiences." },
 ];
 
 const useCases = [
   {
-    title: "Multi-Brand & Multi-Product Businesses",
-    body: "One integrated ecosystem across brands, products, locations, segments and channels.",
+    title: "Multi-brand & multi-product businesses",
+    body: "One integrated ecosystem across brands, products, locations, segments and channels — brand guidelines translated into daily campaigns, creative production connected to performance execution.",
   },
   {
-    title: "Retail & Multi-Location Networks",
-    body: "Centralised brand and campaign management with localised store execution. Compare stores, test messages, replicate what wins.",
+    title: "Retail & multi-location networks",
+    body: "Centralised brand and campaign management while each store runs localised promotions. Compare stores, test messages, replicate what wins.",
   },
   {
-    title: "Large Enterprises",
-    body: "Coordinated marketing across business units, products, services and customer segments — from telecom to technology at scale.",
+    title: "Large enterprises",
+    body: "Coordinated marketing across business units, products and segments. Built on TVQ's experience with Viettel IDC and Viettel Digital as operating references.",
   },
 ];
 
-const campaigns = [
-  { id: "tokyo", label: "01 — Tokyo Night", title: "Signature Drop", metric: "Live · 4 channels · +18%", note: "Neon · cinematic", caption: "Command the Tokyo Night in the sculpted jacket by VyIQ × Nord Storia AI Studio.", img: "/campaigns/tokyo-night.jpg" },
-  { id: "urban", label: "02 — Urban Street", title: "Drop 02", metric: "Planning · 3 creatives A/B", note: "Raw · expressive", caption: "Own the city in motion with VyIQ × Nord Storia AI Studio sneakers.", img: "/campaigns/urban-street.jpg" },
-  { id: "luxury", label: "03 — Quiet Luxury", title: "Core Collection", metric: "Testing · +24% vs benchmark", note: "Soft · elevated", caption: "True elegance whispers, never shouts. This necklace from VyIQ × Nord Storia AI Studio defines quiet power.", img: "/campaigns/quiet-luxury.jpg" },
-  { id: "summer", label: "04 — Summer Escape", title: "Regional Rollout", metric: "Live · localised per store", note: "Sunlit · free", caption: "Own every escape with the perfect summer bag by VyIQ × Nord Storia AI Studio.", img: "/campaigns/summer-escape.jpg" },
+const index = [
+  { n: "01", t: "Inside the studio", href: "#mock" },
+  { n: "02", t: "The platform", href: "#platform" },
+  { n: "03", t: "Ecosystem across TVQ", href: "#ecosystem" },
+  { n: "04", t: "How it works", href: "#how" },
+  { n: "05", t: "Collections", href: "#collections" },
+  { n: "06", t: "Try the tools", href: "#tools" },
+  { n: "07", t: "Book a demo", href: "#demo" },
 ];
+
+function Star({ className = "" }: { className?: string }) {
+  return (
+    <svg className={`spin-star ${className}`} viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+      <path d="M50 4 58 42 96 50 58 58 50 96 42 58 4 50 42 42Z" fill="currentColor" />
+    </svg>
+  );
+}
 
 export default function LandingPage() {
+  const [sent, setSent] = useState(false);
+  const [lead, setLead] = useState({ name: "", email: "", company: "" });
+  const rootRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const els = rootRef.current?.querySelectorAll(".reveal");
+    if (!els?.length) return;
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add("visible")),
+      { threshold: 0.12 }
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+
   return (
-    <main className="landing">
-      <header className="landing-nav">
-        <a className="landing-brand" href="/">
-          <svg className="ns-mark" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path d="M50 4 58 42 96 50 58 58 50 96 42 58 4 50 42 42Z" fill="#101012"/><path d="M50 22 54 46 78 50 54 54 50 78 46 54 22 50 46 46Z" fill="#2036f5"/></svg>
-          <span className="ns-wordmark">NORD STORIA<sup>®</sup><small className="ns-sub">VYIQ AI STUDIO</small></span>
+    <main className="landing" ref={rootRef}>
+      <nav className="cover-nav" aria-label="Primary">
+        <a className="cover-logo" href="/">
+          <svg className="ns-mark" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path d="M50 4 58 42 96 50 58 58 50 96 42 58 4 50 42 42Z" fill="currentColor"/><path d="M50 22 54 46 78 50 54 54 50 78 46 54 22 50 46 46Z" fill="#a8bfc9"/></svg>
+          NORD STORIA<span className="cover-r">®</span>
         </a>
-        <nav className="landing-nav-links" aria-label="Primary">
-          <a href="#capabilities">Capabilities</a>
-          <a href="#ecosystem">Ecosystem</a>
-          <a href="#usecases">Use cases</a>
-          <a href="#metrics">Metrics</a>
-          <a href="#demo">Tools</a>
-          <a href="#pricing">Pricing</a>
-        </nav>
-        <div className="landing-nav-cta">
-          <a className="landing-btn landing-btn-ghost" href="/studio">Sign in</a>
-          <a className="landing-btn landing-btn-dark" href="/studio">Launch Studio →</a>
+        <ul>
+          <li><a href="#platform">Platform</a></li>
+          <li><a href="#mock">Studio</a></li>
+          <li><a href="#ecosystem">Ecosystem</a></li>
+          <li><a href="#collections">Work</a></li>
+          <li><a href="#demo">Demo</a></li>
+        </ul>
+        <a className="cover-cta" href="/studio">Launch Studio →</a>
+      </nav>
+
+      {/* Cover hero */}
+      <header className="cover" id="top">
+        <div className="cover-grid">
+          <div className="cover-copy">
+            <p className="cover-kicker reveal">VyIQ × Nord Storia — AI Media Intelligence Studio</p>
+            <h1 className="reveal">
+              Your product.<br /><em>One campaign.</em>
+            </h1>
+            <p className="cover-intro reveal">
+              Upload a product, type a look — get a <b>campaign photo with caption in minutes</b>.
+              No shoot, no agency, no templates.
+            </p>
+            <div className="cover-actions reveal">
+              <a className="btn solid" href="/studio">Create yours →</a>
+              <a className="btn ghost" href="#demo">Book a demo</a>
+            </div>
+            <div className="needs reveal">
+              <p className="needs-k">What you get</p>
+              <ul>
+                <li>Product Screenshot</li>
+                <li>Virtual Try-On</li>
+                <li>Campaign</li>
+                <li>Dashboard</li>
+                <li>Knowledge Base</li>
+              </ul>
+            </div>
+          </div>
+          <figure className="cover-media reveal">
+            <img src="/campaigns/tokyo-night.jpg" alt="Tokyo Night campaign — sculpted jacket under neon city light" />
+            <span className="media-badge" aria-hidden="true">
+              <Star />
+            </span>
+            <figcaption className="media-caption">
+              <span>Tokyo Night — Live · 4 channels · +18%</span>
+              <i>Made in VyIQ Studio</i>
+            </figcaption>
+          </figure>
+        </div>
+        <div className="cover-meta reveal">
+          <div><span>Ecosystem</span>Integrated AI Marketing &amp; Campaign Management</div>
+          <div><span>Engine</span>Muse Image (Meta) · Generative visual production</div>
+          <div><span>Studio</span>VyIQ × Nord Storia — v2.0 · 2026</div>
         </div>
       </header>
 
-      <section className="landing-hero">
-        <p className="landing-eyebrow">Integrated AI Marketing &amp; Campaign Management Ecosystem</p>
-        <h1>
-          Create. Manage. Monitor.
-          <br />
-          <em>Optimise campaigns — in one place.</em>
-        </h1>
-        <p className="landing-lead">
-          VyIQ: AI Media Intelligence Studio is an AI-powered platform that helps businesses
-          create, manage, monitor and optimise marketing campaigns in one integrated
-          environment. It automates creative production and media operations, consolidates
-          campaign performance data, and uses AI to generate actionable insights and
-          recommendations. It also builds a searchable knowledge base from historical
-          campaigns — helping teams make faster, data-driven decisions and reduce reliance
-          on fragmented agency workflows.
-        </p>
-        <div className="landing-hero-cta">
-          <a className="landing-btn landing-btn-dark landing-btn-lg" href="/studio">Launch Studio →</a>
-          <a className="landing-btn landing-btn-ghost landing-btn-lg" href="#ecosystem">Explore the ecosystem</a>
+      {/* Index */}
+      <div className="landing-index reveal" aria-label="Page index">
+        {index.map((i) => (
+          <a href={i.href} key={i.n}><span className="t">{i.n} — {i.t}</span><span className="n">↗</span></a>
+        ))}
+      </div>
+
+      {/* Marquee */}
+      <div className="brand-marquee" aria-hidden="true">
+        <div className="marquee-track">
+          {[0, 1].map((k) => (
+            <span key={k}>
+              {"CREATE MANAGE MONITOR OPTIMISE —".split(" ").filter(Boolean).map((w, wi) => (
+                <span key={wi}>{w}</span>
+              ))}
+            </span>
+          ))}
         </div>
-        <p className="landing-note">Powered by Muse Image (Meta) for generative visual production.</p>
+      </div>
+
+      {/* App UI simulation */}
+      <section className="block" id="mock">
+        <div className="label reveal">01 — Inside the studio</div>
+        <h2 className="sec reveal">One workspace.<br /><em>Product to campaign.</em></h2>
+        <p className="lead reveal">A live simulation of the studio — the real one runs at /studio with Muse Image behind it.</p>
+        <div className="app-mock reveal" role="img" aria-label="Simulated VyIQ studio interface: sidebar navigation, product picker, generation controls and campaign stage">
+          <div className="mock-chrome" aria-hidden="true">
+            <span /><span /><span />
+            <em>app.vyiq.studio</em>
+          </div>
+          <div className="mock-body">
+            <div className="mock-sidebar" aria-hidden="true">
+              <p className="mock-side-title">Workspace</p>
+              {["Product", "Try-On", "Campaign", "Dashboard", "Knowledge"].map((item, i) => (
+                <span className={i === 0 ? "mock-nav mock-nav-active" : "mock-nav"} key={item}>{item}</span>
+              ))}
+              <span className="mock-user">TVQ team</span>
+            </div>
+            <div className="mock-main" aria-hidden="true">
+              <div className="mock-controls">
+                <p className="mock-label">Product</p>
+                <div className="mock-chips">
+                  <span className="mock-chip mock-on">Jacket</span>
+                  <span className="mock-chip">Bag</span>
+                  <span className="mock-chip">Sneakers</span>
+                </div>
+                <p className="mock-label">Concept</p>
+                <div className="mock-chips">
+                  <span className="mock-chip mock-on">Tokyo Night</span>
+                  <span className="mock-chip">Urban</span>
+                  <span className="mock-chip">Luxury</span>
+                </div>
+                <p className="mock-label">Prompt</p>
+                <p className="mock-prompt">Oversized jacket, neon city night, cinematic…</p>
+                <span className="mock-generate">Generate campaign →</span>
+              </div>
+              <div className="mock-stage">
+                <img src="/campaigns/urban-street.jpg" alt="" className="mock-stage-img" />
+                <p className="mock-stage-tag">CAMPAIGN DRAFT · 9:16</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
-      <section className="landing-visual" aria-label="Campaign visuals">
-        <div className="visual-grid">
-          {campaigns.map((c) => (
-            <article className="visual-card" key={c.id}>
-              <img src={c.img} alt={`${c.label} — ${c.title}`} className="visual-img" loading="lazy" />
-              <div className="visual-copy">
-                <p className="visual-label">{c.label}</p>
-                <h3 className="visual-title">{c.title}</h3>
-                <p className="visual-meta">{c.note}</p>
-                <p className="visual-metric">{c.metric}</p>
-                <p className="visual-caption">{c.caption}</p>
-                <a className="visual-link" href="/studio">Mở campaign trong Studio →</a>
+      {/* Platform narrative */}
+      <section className="block dark" id="platform">
+        <div className="label reveal">02 — The platform</div>
+        <h2 className="sec reveal">Fragmented marketing,<br /><em>into one operation.</em></h2>
+        <p className="lead reveal">
+          VyIQ: AI Media Intelligence Studio is an AI-powered platform that helps businesses create,
+          manage, monitor and optimise marketing campaigns in one integrated environment.
+        </p>
+        <div className="story-grid">
+          <div className="story-col reveal">
+            <p className="story-k">The problem</p>
+            <p className="story-body">
+              Businesses operate across multiple brands, products, locations, segments and channels.
+              Yet marketing is often fragmented: brand guidelines are not consistently translated into
+              daily campaigns, creative production is disconnected from performance execution, and
+              monitoring relies on separate reports and manual coordination — so brand consistency
+              slips, large campaigns are hard to coordinate, and performance never becomes improvement.
+            </p>
+          </div>
+          <div className="story-col reveal">
+            <p className="story-k">The approach</p>
+            <p className="story-body">
+              VyIQ connects the entire process — from brand strategy and communication planning to
+              creative production, campaign execution, performance marketing, monitoring and
+              optimisation. Guidelines, visual direction and campaign frameworks are translated into
+              daily activity, so campaigns across products, channels, teams and locations stay aligned
+              with one strategy.
+            </p>
+          </div>
+          <div className="story-col reveal">
+            <p className="story-k">Continuous optimisation</p>
+            <p className="story-body">
+              Beyond end-of-campaign reports: teams observe progress in real time, evaluate creative
+              effectiveness, test audiences, messages, channels and promotions, and adjust direction
+              based on measurable results. Historical insights are reused to improve future planning
+              and reduce repetitive work.
+            </p>
+          </div>
+          <div className="story-col reveal">
+            <p className="story-k">The goal</p>
+            <p className="story-body">
+              Transform fragmented marketing into a consistent, measurable, continuously optimised
+              operation — every brand, campaign, store and business unit working toward shared
+              objectives, with a clear view of execution quality and business impact.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Ecosystem across TVQ */}
+      <section className="block" id="ecosystem">
+        <div className="label reveal">03 — An Integrated Ecosystem Across TVQ</div>
+        <h2 className="sec reveal">One ecosystem.<br /><em>Every capability.</em></h2>
+        <div className="eco-rows reveal">
+          {pillars.map((p, i) => (
+            <article className="eco-row" key={p.name}>
+              <span className="eco-n">{String(i + 1).padStart(2, "0")}</span>
+              <div className="eco-body">
+                <p className="eco-tag">{p.tag}</p>
+                <h3>{p.name}</h3>
+                <p>{p.body}</p>
               </div>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="landing-section" id="capabilities">
-        <p className="landing-kicker">Capabilities</p>
-        <h2>Everything from strategy <em>to optimisation.</em></h2>
-        <div className="landing-grid-3">
-          {capabilities.map((c) => (
-            <article className="landing-card" key={c.title}>
-              <h3>{c.title}</h3>
-              <p>{c.body}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="landing-section landing-section-alt" id="ecosystem">
-        <p className="landing-kicker">An Integrated Ecosystem Across TVQ</p>
-        <h2>One ecosystem. <em>Every capability.</em></h2>
-        <p className="landing-section-lead">
-          Nord Storia strategy, VyIQ intelligence, the VyIQ × Nord Storia AI Studio,
-          TVIQ technology, and Robotics &amp; IoT — combined into a unified approach to
-          brand management and marketing operations.
-        </p>
-        <div className="landing-grid-3">
-          {ecosystem.map((e) => (
-            <article className="landing-card" key={e.name}>
-              <p className="landing-card-tag">{e.tag}</p>
-              <h3>{e.name}</h3>
-              <p>{e.body}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="landing-section" id="usecases">
-        <p className="landing-kicker">Use cases</p>
-        <h2>Built for <em>complex operations.</em></h2>
-        <div className="landing-grid-3">
+      {/* Use cases */}
+      <section className="block" id="usecases">
+        <div className="label reveal">04 — Who it serves</div>
+        <h2 className="sec reveal">Built for<br /><em>complex operations.</em></h2>
+        <div className="story-grid">
           {useCases.map((u) => (
-            <article className="landing-card" key={u.title}>
-              <h3>{u.title}</h3>
-              <p>{u.body}</p>
+            <div className="story-col reveal" key={u.title}>
+              <p className="story-k">Use case</p>
+              <h3 className="story-h">{u.title}</h3>
+              <p className="story-body">{u.body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* How it works */}
+      <section className="block dark" id="how">
+        <div className="label reveal">05 — How it works</div>
+        <h2 className="sec reveal">Three steps.<br /><em>Minutes, not weeks.</em></h2>
+        <div className="workflow-grid">
+          {workflow.map((s) => (
+            <article className="workflow-card reveal" key={s.n}>
+              <img src={s.img} alt="" loading="lazy" className="workflow-img" />
+              <p className="workflow-n">{s.n}</p>
+              <h3>{s.t}</h3>
+              <p>{s.d}</p>
             </article>
           ))}
         </div>
       </section>
 
-
-
-      <section className="landing-section landing-section-alt" id="pricing">
-        <p className="landing-kicker">Getting started</p>
-        <h2>From fragmented marketing <em>to a measurable operation.</em></h2>
-        <p className="landing-section-lead">
-          Launch the studio, generate your first campaign with Muse Image, and let every
-          brand, campaign, store and business unit work toward shared objectives —
-          with a clear view of execution quality and business impact.
-        </p>
-        <div className="landing-hero-cta">
-          <a className="landing-btn landing-btn-dark landing-btn-lg" href="/studio">Start creating →</a>
-          <a className="landing-btn landing-btn-ghost landing-btn-lg" href="/studio/dashboard">View dashboard</a>
+      {/* Collections */}
+      <section className="block" id="collections">
+        <div className="label reveal">06 — Made with VyIQ</div>
+        <h2 className="sec reveal">Collections you can<br /><em>make today.</em></h2>
+        <div className="visual-grid">
+          {collections.map((c) => (
+            <article className="visual-card reveal" key={c.label}>
+              <img src={c.img} alt={`${c.label} — ${c.tag}`} className="visual-img" loading="lazy" />
+              <div className="visual-copy">
+                <p className="visual-label">{c.label} — {c.tag}</p>
+                <h3 className="visual-title">{c.label}</h3>
+                <p className="visual-metric">{c.metric}</p>
+                <a className="visual-link" href="/studio">Make yours →</a>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
 
-
-      <section className="landing-section landing-metrics" id="metrics">
-        <p className="landing-kicker">Proof in numbers</p>
-        <h2>Every campaign <em>leaves a number.</em></h2>
-        <div className="metric-row">
-          <div className="metric"><p className="metric-value">4</p><p className="metric-label">Channels live per drop</p><p className="metric-detail">Meta · TikTok · Google · CRM</p></div>
-          <div className="metric"><p className="metric-value">+18–24%</p><p className="metric-label">Lift vs benchmark</p><p className="metric-detail">A/B tested creative variants</p></div>
-          <div className="metric"><p className="metric-value">12</p><p className="metric-label">Campaigns reused</p><p className="metric-detail">Knowledge base replay time −60%</p></div>
-          <div className="metric"><p className="metric-value">100%</p><p className="metric-label">On-brand output</p><p className="metric-detail">Guidelines enforced by Muse Image kit</p></div>
+      {/* Tools */}
+      <section className="block" id="tools">
+        <div className="label reveal">07 — Try the tools</div>
+        <h2 className="sec reveal">Five tools.<br /><em>One studio.</em></h2>
+        <div className="tools-grid">
+          {tools.map((t) => (
+            <a className="tool reveal" key={t.n} href={t.href}>
+              <span className="tool-cat">{t.n} — Live in studio</span>
+              <h3>{t.t}</h3>
+              <p>{t.d}</p>
+              <span className="tool-cta">Open →</span>
+            </a>
+          ))}
         </div>
       </section>
 
-
-      <section className="landing-section landing-demo" id="demo">
-        <p className="landing-kicker">Try the tools</p>
-        <h2>Five tools. <em>One studio.</em></h2>
-        <p className="landing-lead">Hover to preview — click to open. Every tool below is live in <a href="/studio">/studio</a> with Muse Image behind it.</p>
-        <div className="demo-grid">
-          <a className="demo-card" href="/studio"><span className="demo-num">01</span><h3>Product Screenshot</h3><p>Text→image packshot with Muse Image. Try: “obsidian oversized jacket, neon city night”.</p><span className="demo-cta">Open tool →</span></a>
-          <a className="demo-card" href="/studio"><span className="demo-num">02</span><h3>Virtual Try-On</h3><p>Person + garment → one photorealistic photo. Try: Jacket.jpg + your product.</p><span className="demo-cta">Open tool →</span></a>
-          <a className="demo-card" href="/studio"><span className="demo-num">03</span><h3>Campaign</h3><p>Concept, image and Muse Spark caption + hashtags in one click.</p><span className="demo-cta">Open tool →</span></a>
-          <a className="demo-card" href="/studio/dashboard"><span className="demo-num">04</span><h3>Dashboard</h3><p>Performance, channels, store comparison and AI recommendations.</p><span className="demo-cta">Open tool →</span></a>
-          <a className="demo-card" href="/studio/knowledge"><span className="demo-num">05</span><h3>Knowledge Base</h3><p>Search past campaigns. Reuse briefs, images and what worked.</p><span className="demo-cta">Open tool →</span></a>
+      {/* Metrics */}
+      <section className="block" id="metrics">
+        <div className="label reveal">08 — Proof in numbers</div>
+        <h2 className="sec reveal">Every campaign<br /><em>leaves a number.</em></h2>
+        <div className="gates-grid">
+          <div className="gate-card reveal"><p className="gnum">4</p><h3>Channels live per drop</h3><p className="who">Meta · TikTok · Google · CRM</p></div>
+          <div className="gate-card reveal"><p className="gnum">+18–24%</p><h3>Lift vs benchmark</h3><p className="who">A/B tested creative variants</p></div>
+          <div className="gate-card reveal"><p className="gnum">−60%</p><h3>Replay time</h3><p className="who">Knowledge base reuse</p></div>
+          <div className="gate-card reveal"><p className="gnum">100%</p><h3>On-brand output</h3><p className="who">Guidelines enforced by Muse Image kit</p></div>
         </div>
+      </section>
+
+      {/* Demo signup */}
+      <section className="block dark landing-signup" id="demo">
+        <div className="signup-copy">
+          <div className="label reveal">09 — Book a demo</div>
+          <h2 className="sec reveal">See your product<br /><em>in a campaign.</em></h2>
+          <p className="lead reveal">Bring one product. We run it through the studio live — you leave with a campaign concept and a plan to scale it.</p>
+        </div>
+        {sent ? (
+          <div className="signup-done reveal" role="status">
+            <p className="signup-done-title">✓ Request received</p>
+            <p>We'll reach out at {lead.email || "your email"} within one working day.</p>
+          </div>
+        ) : (
+          <form className="signup-form reveal" onSubmit={(e) => { e.preventDefault(); setSent(true); }}>
+            <label>
+              Name
+              <input required value={lead.name} onChange={(e) => setLead({ ...lead, name: e.target.value })} placeholder="Nguyễn An" autoComplete="name" />
+            </label>
+            <label>
+              Work email
+              <input required type="email" value={lead.email} onChange={(e) => setLead({ ...lead, email: e.target.value })} placeholder="an@company.com" autoComplete="email" />
+            </label>
+            <label>
+              Company
+              <input value={lead.company} onChange={(e) => setLead({ ...lead, company: e.target.value })} placeholder="Company / brand" autoComplete="organization" />
+            </label>
+            <button type="submit" className="btn solid">Show me my campaign →</button>
+            <p className="signup-fine">Or try the studio yourself: <a href="/studio">/studio</a></p>
+          </form>
+        )}
       </section>
 
       <section className="tagline-band tagline-band--light" aria-label="Tagline">
@@ -238,12 +389,11 @@ export default function LandingPage() {
         <p className="tagline-en">Cold stories, told bright. — Nord Storia® thuộc Công ty Tâm Việt Quang</p>
       </section>
 
-      <footer className="landing-footer landing-footer-big">
+      <footer className="cover-footer">
         <a className="big-mail" href="mailto:hello@nordstoria.com">hello@nordstoria.com ↗</a>
         <div className="footer-meta">
           <span>© Nord Storia® · VyIQ 2026</span>
-          <span>An intelligent creative experience — strategy → creative → execution → monitoring → optimisation.</span>
-          <span>Ý tưởng trước. Trang trí sau. · Made with intent, not templates.</span>
+          <span>Strategy → creative → execution → optimisation.</span>
         </div>
       </footer>
     </main>
