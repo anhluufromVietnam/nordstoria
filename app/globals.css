@@ -487,3 +487,52 @@ h1 em,.campaign-title h2 em,.audience-panel h2 em { font-family: var(--serif); f
 .brand-swatches span { width:13px;height:13px;border-radius:50%;border:1px solid #1010121f; }
 .product-card.product-locked { cursor:default; }
 .product-grid-single { grid-template-columns: 1fr; }
+
+/* ===== VyIQ Landing + App ===== */
+.nav-link { font:600 11px var(--sans); letter-spacing:.4px; color:var(--ink); text-decoration:none; padding:6px 2px; }
+.nav-link:hover { color:var(--blue); }
+.landing { max-width:1180px; margin:0 auto; padding:0 5%; }
+.landing-nav { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:22px 0; border-bottom:1px solid var(--line); }
+.landing-brand { display:flex; gap:9px; align-items:center; font:700 13px var(--mono); letter-spacing:1.6px; color:var(--ink); text-decoration:none; }
+.landing-brand-light { font-weight:400; }
+.landing-mark { display:grid; place-items:center; width:26px; height:26px; color:var(--blue); font-size:22px; }
+.landing-nav-links { display:flex; gap:24px; }
+.landing-nav-links a { text-decoration:none; color:var(--ink); font:500 13px var(--sans); }
+.landing-nav-links a:hover { color:var(--blue); }
+.landing-nav-cta { display:flex; gap:10px; }
+.landing-btn { display:inline-flex; align-items:center; justify-content:center; padding:10px 16px; border-radius:999px; border:1px solid var(--ink); text-decoration:none; font:600 13px var(--sans); white-space:nowrap; }
+.landing-btn-dark { background:var(--ink); color:#fff; }
+.landing-btn-dark:hover { background:var(--blue); border-color:var(--blue); }
+.landing-btn-ghost { background:transparent; color:var(--ink); }
+.landing-btn-lg { padding:14px 22px; font-size:14px; }
+.landing-hero { padding:84px 0 64px; text-align:left; }
+.landing-eyebrow { font:600 12px var(--mono); letter-spacing:1.2px; color:var(--blue); margin-bottom:18px; }
+.landing-hero h1 { font:600 56px/1.05 var(--serif); letter-spacing:-.5px; margin:0 0 22px; }
+.landing-hero h1 em { font-style:italic; color:var(--blue); }
+.landing-lead { max-width:760px; font:400 17px/1.65 var(--sans); color:#333; margin:0 0 30px; }
+.landing-hero-cta { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:14px; }
+.landing-note { font:400 12px var(--mono); color:#8a877f; }
+.landing-section { padding:64px 0; }
+.landing-section-alt { border-top:1px solid var(--line); }
+.landing-kicker { font:600 12px var(--mono); letter-spacing:1.2px; text-transform:uppercase; color:var(--blue); margin:0 0 12px; }
+.landing-section h2 { font:600 34px/1.15 var(--serif); margin:0 0 14px; }
+.landing-section h2 em { font-style:italic; color:var(--blue); }
+.landing-section-lead { max-width:680px; font:400 15px/1.6 var(--sans); color:#444; margin:0 0 28px; }
+.landing-grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.landing-card { border:1px solid var(--line); border-radius:12px; padding:22px; background:#fff; }
+.landing-card h3 { margin:0 0 10px; font:600 17px var(--sans); }
+.landing-card p { margin:0; font:400 14px/1.6 var(--sans); color:#555; }
+.landing-card-tag { font:600 11px var(--mono); letter-spacing:1px; text-transform:uppercase; color:var(--blue); margin-bottom:8px !important; }
+.landing-footer { display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; padding:24px 0 40px; border-top:1px solid var(--line); font:400 11px var(--mono); color:#8a877f; }
+@media (max-width:800px) {
+  .landing-nav-links { display:none; }
+  .landing-hero h1 { font-size:38px; }
+  .landing-grid-3 { grid-template-columns:1fr; }
+}
+.app-page { max-width:1180px; margin:0 auto; padding:0 5% 60px; }
+.app-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+.app-card { border:1px solid var(--line); border-radius:12px; padding:22px; background:#fff; }
+.app-card h3 { margin:0 0 8px; font:600 16px var(--sans); }
+.app-card p, .app-card li { font:400 14px/1.6 var(--sans); color:#555; }
+.app-card a { color:var(--blue); font-weight:600; }
+@media (max-width:800px) { .app-grid { grid-template-columns:1fr; } }
