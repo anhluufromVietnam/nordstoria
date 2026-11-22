@@ -191,6 +191,8 @@ export default function LandingPage() {
         </div>
       </section>
 
+
+
       <section className="landing-section landing-section-alt" id="pricing">
         <p className="landing-kicker">Getting started</p>
         <h2>From fragmented marketing <em>to a measurable operation.</em></h2>
@@ -205,6 +207,7 @@ export default function LandingPage() {
         </div>
       </section>
 
+
       <section className="landing-section landing-metrics" id="metrics">
         <p className="landing-kicker">Proof in numbers</p>
         <h2>Every campaign <em>leaves a number.</em></h2>
@@ -215,6 +218,7 @@ export default function LandingPage() {
           <div className="metric"><p className="metric-value">100%</p><p className="metric-label">On-brand output</p><p className="metric-detail">Guidelines enforced by Muse Image kit</p></div>
         </div>
       </section>
+
 
       <section className="landing-section landing-demo" id="demo">
         <p className="landing-kicker">Try the tools</p>
@@ -229,16 +233,18 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <div className="brand-marquee" aria-hidden="true">
-        <div className="marquee-track">
-          <span>NORD STORIA</span><span>VYIQ AI STUDIO</span><span>COLD STORIES, TOLD BRIGHT</span>
-          <span>NORD STORIA</span><span>VYIQ AI STUDIO</span><span>COLD STORIES, TOLD BRIGHT</span>
-        </div>
-      </div>
-
       <section className="tagline-band">
-        <p className="tagline-big">Kể chuyện phương Bắc. <span>Bằng ngôn ngữ hiện đại.</span></p>
-        <p className="tagline-en">Cold stories, told bright. — Nord Storia® thuộc Công ty Tâm Việt Quang</p>
+        <div className="brand-marquee brand-marquee-inside" aria-hidden="true">
+          <div className="marquee-track">
+            <span>Nord Storia</span><span>VyIQ AI Studio</span><span>Cold stories, told bright</span>
+            <span>Nord Storia</span><span>VyIQ AI Studio</span><span>Cold stories, told bright</span>
+          </div>
+        </div>
+        <div className="tagline-inner">
+          <p className="tagline-eyebrow">Nord Storia — Media agency · Tâm Việt Quang</p>
+          <p className="tagline-big">Kể chuyện phương Bắc.<br /><span>Bằng ngôn ngữ hiện đại.</span></p>
+          <p className="tagline-en">Cold stories, told bright. — Nord Storia® thuộc Công ty Tâm Việt Quang</p>
+        </div>
       </section>
 
       <footer className="landing-footer landing-footer-big">

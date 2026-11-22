@@ -521,14 +521,14 @@ h1 em,.campaign-title h2 em,.audience-panel h2 em { font-family: var(--serif); f
 .landing-btn-dark:hover { background:var(--blue); border-color:var(--blue); }
 .landing-btn-ghost { background:transparent; color:var(--ink); }
 .landing-btn-lg { padding:14px 22px; font-size:14px; }
-.landing-hero { padding:84px 0 64px; text-align:left; }
+.landing-hero { padding:84px 4vw 64px; text-align:left; }
 .landing-eyebrow { font:600 12px var(--mono); letter-spacing:1.2px; color:var(--blue); margin-bottom:18px; }
 .landing-hero h1 { font:600 56px/1.05 var(--serif); letter-spacing:-.5px; margin:0 0 22px; }
 .landing-hero h1 em { font-style:italic; color:var(--blue); }
 .landing-lead { max-width:760px; font:400 17px/1.65 var(--sans); color:#333; margin:0 0 30px; }
 .landing-hero-cta { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:14px; }
 .landing-note { font:400 12px var(--mono); color:#8a877f; }
-.landing-section { padding:64px 0; }
+.landing-section { padding:72px 4vw; }
 .landing-section-alt { border-top:1px solid var(--line); }
 .landing-kicker { font:600 12px var(--mono); letter-spacing:1.2px; text-transform:uppercase; color:var(--blue); margin:0 0 12px; }
 .landing-section h2 { font:600 34px/1.15 var(--serif); margin:0 0 14px; }
@@ -595,14 +595,17 @@ h1 em, h2 em, .landing-section h2 em { font-style: normal; color: var(--blue); }
 .visual-metric { font: 500 12px var(--sans); letter-spacing: .06em; margin: 10px 0 0; color: var(--glacier); }
 .visual-link { margin-top: 12px; color: var(--bone); font-weight: 600; text-decoration: none; }
 .visual-link:hover { text-decoration: underline; text-underline-offset: 5px; }
-.brand-marquee { border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); background: var(--ink); color: var(--bone); overflow: hidden; padding: 14px 0; white-space: nowrap; }
+.brand-marquee { border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); background: var(--ink); color: var(--bone); overflow: hidden; padding: 18px 0; white-space: nowrap; }
 .marquee-track { display: inline-block; animation: marquee-scroll 22s linear infinite; }
 .marquee-track span { font: 700 20px var(--display); text-transform: uppercase; margin-right: 40px; }
 .marquee-track span { position:relative; padding-right:0; }
 .marquee-track span:not(:last-child)::after { content:""; display:inline-block; width:7px; height:7px; background:var(--glacier); margin:0 26px; vertical-align:middle; transform:rotate(45deg); }
 @keyframes marquee-scroll { to { transform: translateX(-50%); } }
-.tagline-band { background: var(--ink); color: var(--bone); padding: clamp(40px, 6vw, 80px) 0; }
-.tagline-big { font: 800 clamp(30px, 5vw, 60px) / 1.12 var(--display); letter-spacing: -.025em; max-width: 900px; margin: 0; }
+.tagline-band { background: var(--ink); color: var(--bone); padding: 0 0 clamp(48px, 6vw, 88px); }
+.tagline-inner { padding: clamp(40px, 5vw, 72px) clamp(20px, 4vw, 56px) 0; max-width: 1200px; margin: 0 auto; }
+.tagline-eyebrow { font-family: var(--display); font-weight: 700; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--glacier); margin: 0 0 18px; }
+.brand-marquee-inside { border: none; border-bottom: 1px solid rgba(239,235,227,.18); }
+.tagline-big { font: 800 clamp(34px, 5.2vw, 68px) / 1.28 var(--display); letter-spacing: -.02em; max-width: 900px; margin: 0; padding-bottom: .12em; }
 .tagline-big span { color: var(--glacier); }
 .tagline-en { font-family:var(--display); font-weight:700; letter-spacing:.04em; opacity:.7; margin-top:16px; text-transform:none; }
 .big-mail { font: 800 clamp(26px, 4.5vw, 48px) var(--display); color: var(--ink); text-decoration: none; }
