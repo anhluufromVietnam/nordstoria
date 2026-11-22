@@ -76,6 +76,13 @@ const useCases = [
   },
 ];
 
+const campaigns = [
+  { id: "tokyo", label: "01 — Tokyo Night", title: "Signature Drop", metric: "Live · 4 channels · +18%", note: "Neon · cinematic", caption: "Command the Tokyo Night in the sculpted jacket by VyIQ × Nord Storia AI Studio.", img: "/campaigns/tokyo-night.jpg" },
+  { id: "urban", label: "02 — Urban Street", title: "Drop 02", metric: "Planning · 3 creatives A/B", note: "Raw · expressive", caption: "Own the city in motion with VyIQ × Nord Storia AI Studio sneakers.", img: "/campaigns/urban-street.jpg" },
+  { id: "luxury", label: "03 — Quiet Luxury", title: "Core Collection", metric: "Testing · +24% vs benchmark", note: "Soft · elevated", caption: "True elegance whispers, never shouts. This necklace from VyIQ × Nord Storia AI Studio defines quiet power.", img: "/campaigns/quiet-luxury.jpg" },
+  { id: "summer", label: "04 — Summer Escape", title: "Regional Rollout", metric: "Live · localised per store", note: "Sunlit · free", caption: "Own every escape with the perfect summer bag by VyIQ × Nord Storia AI Studio.", img: "/campaigns/summer-escape.jpg" },
+];
+
 export default function LandingPage() {
   return (
     <main className="landing">
@@ -117,6 +124,24 @@ export default function LandingPage() {
           <a className="landing-btn landing-btn-ghost landing-btn-lg" href="#ecosystem">Explore the ecosystem</a>
         </div>
         <p className="landing-note">Powered by Muse Image (Meta) for generative visual production.</p>
+      </section>
+
+      <section className="landing-visual" aria-label="Campaign visuals">
+        <div className="visual-grid">
+          {campaigns.map((c) => (
+            <article className="visual-card" key={c.id}>
+              <img src={c.img} alt={`${c.label} — ${c.title}`} className="visual-img" loading="lazy" />
+              <div className="visual-copy">
+                <p className="visual-label">{c.label}</p>
+                <h3 className="visual-title">{c.title}</h3>
+                <p className="visual-meta">{c.note}</p>
+                <p className="visual-metric">{c.metric}</p>
+                <p className="visual-caption">{c.caption}</p>
+                <a className="visual-link" href="/studio">Mở campaign trong Studio →</a>
+              </div>
+            </article>
+          ))}
+        </div>
       </section>
 
       <section className="landing-section" id="capabilities">
@@ -178,9 +203,26 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <footer className="landing-footer">
-        <span>© VyIQ × Nord Storia 2026</span>
-        <span>An intelligent creative experience — strategy → creative → execution → monitoring → optimisation.</span>
+      <div className="brand-marquee" aria-hidden="true">
+        <div className="marquee-track">
+          <span>NORD STORIA<i>✳</i></span><span>VYIQ AI STUDIO<i>✳</i></span><span>COLD STORIES, TOLD BRIGHT<i>✳</i></span>
+          <span>NORD STORIA<i>✳</i></span><span>VYIQ AI STUDIO<i>✳</i></span><span>COLD STORIES, TOLD BRIGHT<i>✳</i></span>
+        </div>
+      </div>
+
+      <section className="tagline-band">
+        <p className="landing-kicker">Tagline chính thức</p>
+        <p className="tagline-big">Kể chuyện phương Bắc. <span>Bằng ngôn ngữ hiện đại.</span></p>
+        <p className="tagline-en">“Cold stories, told bright.” — Nord Storia® · Thuộc Công ty Tâm Việt Quang</p>
+      </section>
+
+      <footer className="landing-footer landing-footer-big">
+        <a className="big-mail" href="mailto:hello@nordstoria.com">hello@nordstoria.com ↗</a>
+        <div className="footer-meta">
+          <span>© Nord Storia® · VyIQ 2026</span>
+          <span>An intelligent creative experience — strategy → creative → execution → monitoring → optimisation.</span>
+          <span>Ý tưởng trước. Trang trí sau. · Made with intent, not templates.</span>
+        </div>
       </footer>
     </main>
   );
