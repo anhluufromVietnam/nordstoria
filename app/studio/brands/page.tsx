@@ -5,15 +5,12 @@ export const metadata: Metadata = {
   description: "Brand guidelines and visual direction for consistent campaigns.",
 };
 
+import { CoverHeader } from "@/lib/nav";
+
 export default function BrandsPage() {
   return (
     <main className="landing">
-      <header className="landing-nav">
-        <a className="landing-brand" href="/"><svg className="ns-mark" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path d="M50 4 58 42 96 50 58 58 50 96 42 58 4 50 42 42Z" fill="#101012"/><path d="M50 22 54 46 78 50 54 54 50 78 46 54 22 50 46 46Z" fill="#2036f5"/></svg><span>VyIQ Studio</span></a>
-        <nav className="landing-nav-links">
-          <a href="/studio">Studio</a><a href="/studio/dashboard">Dashboard</a><a href="/studio/brands">Brands</a><a href="/studio/campaigns">Campaigns</a><a href="/">← Landing</a>
-        </nav>
-      </header>
+      <CoverHeader />
       <section className="landing-section">
         <p className="landing-kicker">Brands</p>
         <h2>Brand consistency, <em>by default.</em></h2>

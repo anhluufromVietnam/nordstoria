@@ -755,18 +755,60 @@ h1 em,.campaign-title h2 em,.audience-panel h2 em { font-family: var(--serif); f
 .gate-card .who { font: 400 11px var(--mono); letter-spacing: .1em; opacity: .65; margin: 0; }
 
 /* Signup */
-.landing-signup { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 5vw, 72px); align-items: start; }
+.landing-signup { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 5vw, 72px); align-items: start; background: var(--bone); color: var(--ink); }
 .signup-form { display: flex; flex-direction: column; gap: 14px; }
-.signup-form label { display: flex; flex-direction: column; gap: 6px; font: 500 11px var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--glacier); }
-.signup-form input { border: 1px solid rgba(168,191,201,.4); background: transparent; color: var(--bone); font: 400 15px var(--sans); padding: 12px 14px; }
-.signup-form input::placeholder { color: rgba(239,235,227,.4); }
-.signup-form input:focus { outline: 2px solid var(--glacier); outline-offset: 2px; }
+.signup-form label { display: flex; flex-direction: column; gap: 6px; font: 500 11px var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--ink); }
+.signup-form input { border: 1px solid var(--ink); background: transparent; color: var(--ink); font: 400 15px var(--sans); padding: 12px 14px; }
+.signup-form input::placeholder { color: rgba(16,16,18,.4); }
+.signup-form input:focus { outline: 2px solid var(--blue); outline-offset: 2px; }
 .signup-form .btn.solid { align-self: start; }
-.signup-fine { font: 400 12px var(--mono); color: rgba(239,235,227,.6); margin: 0; }
-.signup-fine a { color: var(--glacier); font-weight: 700; }
-.signup-done { border: 1px solid var(--glacier); padding: 26px; }
-.signup-done-title { font: 700 18px var(--display); color: var(--glacier); margin: 0 0 8px; }
-.signup-done p { margin: 0; font: 400 14px/1.6 var(--sans); color: rgba(239,235,227,.8); }
+.signup-fine { font: 400 12px var(--mono); color: var(--muted); margin: 0; }
+.signup-fine a { color: var(--blue); font-weight: 700; }
+.signup-done { border: 1px solid var(--ink); padding: 26px; }
+.signup-done-title { font: 700 18px var(--display); color: var(--blue); margin: 0 0 8px; }
+.signup-done p { margin: 0; font: 400 14px/1.6 var(--sans); color: rgba(16,16,18,.8); }
+
+/* Language switch */
+.nav-end { display: flex; align-items: center; gap: 12px; }
+.lang-switch { display: flex; border: 1px solid rgba(255,255,255,.5); }
+.lang-btn { background: transparent; border: 0; color: #fff; font: 500 10px var(--mono); letter-spacing: .12em; padding: 7px 11px; cursor: pointer; }
+.lang-btn.lang-on { background: #fff; color: var(--ink); }
+
+/* Roadmap mockups */
+.roadmap-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+.road-card { position: relative; border: 1px solid rgba(239,235,227,.25); padding: 26px; background: rgba(239,235,227,.03); display: flex; flex-direction: column; transition: border-color .3s, background .3s; }
+.road-card:hover { border-color: var(--glacier); background: rgba(239,235,227,.06); }
+.road-badge { display: inline-block; align-self: start; font: 500 9px var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--ink); background: var(--glacier); padding: 4px 9px; margin: 22px 0 10px; }
+.road-card h3 { font: 700 19px var(--display); margin: 0 0 8px; text-transform: uppercase; }
+.road-body { font: 400 13px/1.55 var(--sans); opacity: .72; margin: 0; }
+.road-mock { border: 1px solid rgba(239,235,227,.3); background: var(--ink); padding: 14px; min-height: 150px; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+.rm-header { display: flex; justify-content: space-between; align-items: center; }
+.rm-header i { font: 700 11px var(--display); font-style: normal; color: var(--bone); text-transform: uppercase; letter-spacing: .1em; }
+.rm-header b { font: 400 10px var(--mono); color: var(--glacier); }
+.rm-gantt { display: flex; flex-direction: column; gap: 8px; position: relative; }
+.rm-gantt::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(90deg, transparent 0 calc(12.5% - 1px), rgba(239,235,227,.14) calc(12.5% - 1px) 12.5%); pointer-events: none; }
+.rm-row { display: grid; grid-template-columns: 64px 1fr; align-items: center; gap: 8px; }
+.rm-row > span { font: 400 9px var(--mono); letter-spacing: .08em; color: rgba(239,235,227,.65); text-transform: uppercase; }
+.rm-bar { display: block; height: 14px; position: relative; }
+.rm-blue { background: var(--blue); }
+.rm-amber { background: var(--amber); }
+.rm-glacier { background: var(--glacier); }
+.rm-dots { display: flex; gap: 6px; margin-top: auto; }
+.rm-dots span { width: 7px; height: 7px; border: 1px solid rgba(239,235,227,.4); transform: rotate(45deg); }
+.rm-dots .rm-on { background: var(--glacier); border-color: var(--glacier); }
+.rm-chart { flex: 1; display: flex; align-items: flex-end; gap: 7px; min-height: 64px; }
+.rm-chart i { flex: 1; display: block; background: rgba(168,191,201,.5); min-height: 4px; }
+.rm-chart .rm-hot { background: var(--glacier); }
+.rm-reco { margin: 0; font: 400 10px var(--mono); color: var(--glacier); letter-spacing: .04em; }
+.rm-table { display: flex; flex-direction: column; gap: 8px; }
+.rm-tr { display: grid; grid-template-columns: 44px 1fr 44px; align-items: center; gap: 8px; }
+.rm-tr span { font: 400 9px var(--mono); color: rgba(239,235,227,.65); letter-spacing: .08em; }
+.rm-track { height: 8px; background: rgba(239,235,227,.14); position: relative; }
+.rm-track i { position: absolute; inset: 0 auto 0 0; background: var(--glacier); }
+.rm-tr b { font: 400 9px var(--mono); color: var(--glacier); text-align: right; }
+.rm-swatches { display: flex; gap: 8px; }
+.rm-swatches span { width: 26px; height: 26px; border: 1px solid rgba(239,235,227,.35); }
+.rm-rule { margin: 0; font: 400 10px var(--mono); color: var(--glacier); letter-spacing: .04em; }
 
 /* Tagline + footer */
 .tagline-band { padding: clamp(48px, 6vw, 88px) 4vw; border-top: 1px solid var(--ink); }
@@ -797,6 +839,7 @@ h1 em,.campaign-title h2 em,.audience-panel h2 em { font-family: var(--serif); f
   .gates-grid { grid-template-columns: repeat(2, 1fr); }
   .eco-row { grid-template-columns: 48px 1fr; }
   .landing-signup { grid-template-columns: 1fr; }
+  .roadmap-grid { grid-template-columns: 1fr; }
   .mock-sidebar { display: none; }
   .mock-body { grid-template-columns: 1fr; }
   .mock-main { grid-template-columns: 1fr; }

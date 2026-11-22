@@ -1,12 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-
-const workflow = [
-  { n: "01", t: "Pick your product", d: "Jacket, bag, sneakers…", img: "/Demo/Jacket.jpg" },
-  { n: "02", t: "Describe the look", d: "One sentence is enough", img: "/campaigns/tokyo-night.jpg" },
-  { n: "03", t: "Get the campaign", d: "Photo + caption, ready to post", img: "/campaigns/quiet-luxury.jpg" },
-];
+import { dict, LANG_KEY, type Lang } from "../lib/i18n";
 
 const collections = [
   { label: "Tokyo Night", tag: "Neon · cinematic", img: "/campaigns/tokyo-night.jpg", metric: "Live · 4 channels · +18%" },
@@ -15,46 +10,11 @@ const collections = [
   { label: "Summer Escape", tag: "Sunlit · free", img: "/campaigns/summer-escape.jpg", metric: "Live · localised per store" },
 ];
 
-const tools = [
-  { n: "01", t: "Product Screenshot", d: "Text to packshot. One sentence in, a studio photo out.", href: "/studio" },
-  { n: "02", t: "Virtual Try-On", d: "Person + garment, one photorealistic photo.", href: "/studio" },
-  { n: "03", t: "Campaign", d: "Concept, image and caption + hashtags in one click.", href: "/studio" },
-  { n: "04", t: "Dashboard", d: "Performance, channels and AI recommendations.", href: "/studio/dashboard" },
-  { n: "05", t: "Knowledge Base", d: "Search past campaigns. Reuse what worked.", href: "/studio/knowledge" },
+const toolsHref = [
+  "/studio", "/studio", "/studio", "/studio/dashboard", "/studio/knowledge",
 ];
 
-const pillars = [
-  { name: "Nord Storia", tag: "Brand & Media Strategy", body: "Brand positioning, guidelines, communication strategy, campaign planning, creative direction, social, digital and performance marketing, media operations." },
-  { name: "VyIQ AI & Enterprise Solutions", tag: "Campaign Intelligence", body: "AI-powered campaign intelligence, workflow automation, business dashboards, knowledge management, performance analysis and intelligent recommendations." },
-  { name: "VyIQ × Nord Storia AI Studio", tag: "Generative AI", body: "Campaign concepts, branded visual production with Muse Image, creative adaptation and marketing content development." },
-  { name: "TVIQ Technology Solutions", tag: "Digital Platforms", body: "Digital platforms, enterprise applications, system integration and centralised operational management." },
-  { name: "Robotics & IoT", tag: "Connected Experiences", body: "Extend campaign experiences into physical retail, connected stores and interactive customer experiences." },
-];
-
-const useCases = [
-  {
-    title: "Multi-brand & multi-product businesses",
-    body: "One integrated ecosystem across brands, products, locations, segments and channels — brand guidelines translated into daily campaigns, creative production connected to performance execution.",
-  },
-  {
-    title: "Retail & multi-location networks",
-    body: "Centralised brand and campaign management while each store runs localised promotions. Compare stores, test messages, replicate what wins.",
-  },
-  {
-    title: "Large enterprises",
-    body: "Coordinated marketing across business units, products and segments. Built on TVQ's experience with Viettel IDC and Viettel Digital as operating references.",
-  },
-];
-
-const index = [
-  { n: "01", t: "Inside the studio", href: "#mock" },
-  { n: "02", t: "The platform", href: "#platform" },
-  { n: "03", t: "Ecosystem across TVQ", href: "#ecosystem" },
-  { n: "04", t: "How it works", href: "#how" },
-  { n: "05", t: "Collections", href: "#collections" },
-  { n: "06", t: "Try the tools", href: "#tools" },
-  { n: "07", t: "Book a demo", href: "#demo" },
-];
+const workflowImgs = ["/Demo/Jacket.jpg", "/campaigns/tokyo-night.jpg", "/campaigns/quiet-luxury.jpg"];
 
 function Star({ className = "" }: { className?: string }) {
   return (
@@ -65,9 +25,20 @@ function Star({ className = "" }: { className?: string }) {
 }
 
 export default function LandingPage() {
+  const [lang, setLang] = useState<Lang>("en");
   const [sent, setSent] = useState(false);
   const [lead, setLead] = useState({ name: "", email: "", company: "" });
   const rootRef = useRef<HTMLElement>(null);
+  const t = dict[lang];
+
+  useEffect(() => {
+    const saved = (typeof window !== "undefined" && window.localStorage.getItem(LANG_KEY)) as Lang | null;
+    if (saved === "vn" || saved === "en") setLang(saved);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.lang = lang;
+  }, [lang]);
 
   useEffect(() => {
     const els = rootRef.current?.querySelectorAll(".reveal");
@@ -80,71 +51,89 @@ export default function LandingPage() {
     return () => io.disconnect();
   }, []);
 
+  function switchLang(next: Lang) {
+    setLang(next);
+    if (typeof window !== "undefined") window.localStorage.setItem(LANG_KEY, next);
+  }
+
+  const indexRows = [
+    { n: "01", t: t.index.mock, href: "#mock" },
+    { n: "02", t: t.index.platform, href: "#platform" },
+    { n: "03", t: t.index.ecosystem, href: "#ecosystem" },
+    { n: "04", t: t.index.usecases, href: "#usecases" },
+    { n: "05", t: t.index.how, href: "#how" },
+    { n: "06", t: t.index.collections, href: "#collections" },
+    { n: "07", t: t.index.tools, href: "#tools" },
+    { n: "08", t: t.index.roadmap, href: "#roadmap" },
+    { n: "09", t: t.index.demo, href: "#demo" },
+  ];
+
   return (
-    <main className="landing" ref={rootRef}>
+    <main className="landing" ref={rootRef} data-lang={lang}>
       <nav className="cover-nav" aria-label="Primary">
         <a className="cover-logo" href="/">
           <svg className="ns-mark" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path d="M50 4 58 42 96 50 58 58 50 96 42 58 4 50 42 42Z" fill="currentColor"/><path d="M50 22 54 46 78 50 54 54 50 78 46 54 22 50 46 46Z" fill="#a8bfc9"/></svg>
           NORD STORIA<span className="cover-r">®</span>
         </a>
         <ul>
-          <li><a href="#platform">Platform</a></li>
-          <li><a href="#mock">Studio</a></li>
-          <li><a href="#ecosystem">Ecosystem</a></li>
-          <li><a href="#collections">Work</a></li>
-          <li><a href="#demo">Demo</a></li>
+          <li><a href="#platform">{t.nav.platform}</a></li>
+          <li><a href="#mock">{t.nav.studio}</a></li>
+          <li><a href="#ecosystem">{t.nav.ecosystem}</a></li>
+          <li><a href="#collections">{t.nav.work}</a></li>
+          <li><a href="#demo">{t.nav.demo}</a></li>
         </ul>
-        <a className="cover-cta" href="/studio">Launch Studio →</a>
+        <div className="nav-end">
+          <div className="lang-switch" role="group" aria-label="Language">
+            <button className={lang === "en" ? "lang-btn lang-on" : "lang-btn"} onClick={() => switchLang("en")}>EN</button>
+            <button className={lang === "vn" ? "lang-btn lang-on" : "lang-btn"} onClick={() => switchLang("vn")}>VN</button>
+          </div>
+          <a className="cover-cta" href="/studio">{t.nav.launch}</a>
+        </div>
       </nav>
 
       {/* Cover hero */}
       <header className="cover" id="top">
         <div className="cover-grid">
           <div className="cover-copy">
-            <p className="cover-kicker reveal">VyIQ × Nord Storia — AI Media Intelligence Studio</p>
+            <p className="cover-kicker reveal">{t.hero.kicker}</p>
             <h1 className="reveal">
-              Your product.<br /><em>One campaign.</em>
+              {t.hero.h1a}<br /><em>{t.hero.h1b}</em>
             </h1>
             <p className="cover-intro reveal">
-              Upload a product, type a look — get a <b>campaign photo with caption in minutes</b>.
-              No shoot, no agency, no templates.
+              {t.hero.intro}<b>{t.hero.introB}</b>{t.hero.introEnd}
             </p>
             <div className="cover-actions reveal">
-              <a className="btn solid" href="/studio">Create yours →</a>
-              <a className="btn ghost" href="#demo">Book a demo</a>
+              <a className="btn solid" href="/studio">{t.hero.cta1}</a>
+              <a className="btn ghost" href="#demo">{t.hero.cta2}</a>
             </div>
             <div className="needs reveal">
-              <p className="needs-k">What you get</p>
+              <p className="needs-k">{t.hero.needsK}</p>
               <ul>
-                <li>Product Screenshot</li>
-                <li>Virtual Try-On</li>
-                <li>Campaign</li>
-                <li>Dashboard</li>
-                <li>Knowledge Base</li>
+                {t.tools.items.map((tool) => (
+                  <li key={tool.t}>{tool.t}</li>
+                ))}
               </ul>
             </div>
           </div>
           <figure className="cover-media reveal">
             <img src="/campaigns/tokyo-night.jpg" alt="Tokyo Night campaign — sculpted jacket under neon city light" />
-            <span className="media-badge" aria-hidden="true">
-              <Star />
-            </span>
+            <span className="media-badge" aria-hidden="true"><Star /></span>
             <figcaption className="media-caption">
-              <span>Tokyo Night — Live · 4 channels · +18%</span>
-              <i>Made in VyIQ Studio</i>
+              <span>{t.hero.mediaCaption}</span>
+              <i>{t.hero.mediaSub}</i>
             </figcaption>
           </figure>
         </div>
         <div className="cover-meta reveal">
-          <div><span>Ecosystem</span>Integrated AI Marketing &amp; Campaign Management</div>
-          <div><span>Engine</span>Muse Image (Meta) · Generative visual production</div>
-          <div><span>Studio</span>VyIQ × Nord Storia — v2.0 · 2026</div>
+          <div><span>{t.meta.eco}</span>{t.meta.ecoV}</div>
+          <div><span>{t.meta.engine}</span>{t.meta.engineV}</div>
+          <div><span>{t.meta.studio}</span>{t.meta.studioV}</div>
         </div>
       </header>
 
       {/* Index */}
       <div className="landing-index reveal" aria-label="Page index">
-        {index.map((i) => (
+        {indexRows.map((i) => (
           <a href={i.href} key={i.n}><span className="t">{i.n} — {i.t}</span><span className="n">↗</span></a>
         ))}
       </div>
@@ -153,28 +142,24 @@ export default function LandingPage() {
       <div className="brand-marquee" aria-hidden="true">
         <div className="marquee-track">
           {[0, 1].map((k) => (
-            <span key={k}>
-              {"CREATE MANAGE MONITOR OPTIMISE —".split(" ").filter(Boolean).map((w, wi) => (
-                <span key={wi}>{w}</span>
-              ))}
-            </span>
+            <span key={k}>{t.marquee.repeat(2)}</span>
           ))}
         </div>
       </div>
 
       {/* App UI simulation */}
       <section className="block" id="mock">
-        <div className="label reveal">01 — Inside the studio</div>
-        <h2 className="sec reveal">One workspace.<br /><em>Product to campaign.</em></h2>
-        <p className="lead reveal">A live simulation of the studio — the real one runs at /studio with Muse Image behind it.</p>
-        <div className="app-mock reveal" role="img" aria-label="Simulated VyIQ studio interface: sidebar navigation, product picker, generation controls and campaign stage">
+        <div className="label reveal">{t.mock.label}</div>
+        <h2 className="sec reveal">{t.mock.h2a}<br /><em>{t.mock.h2b}</em></h2>
+        <p className="lead reveal">{t.mock.lead}</p>
+        <div className="app-mock reveal" role="img" aria-label="Simulated VyIQ studio interface">
           <div className="mock-chrome" aria-hidden="true">
             <span /><span /><span />
             <em>app.vyiq.studio</em>
           </div>
           <div className="mock-body">
             <div className="mock-sidebar" aria-hidden="true">
-              <p className="mock-side-title">Workspace</p>
+              <p className="mock-side-title">{t.mock.workspace}</p>
               {["Product", "Try-On", "Campaign", "Dashboard", "Knowledge"].map((item, i) => (
                 <span className={i === 0 ? "mock-nav mock-nav-active" : "mock-nav"} key={item}>{item}</span>
               ))}
@@ -182,25 +167,25 @@ export default function LandingPage() {
             </div>
             <div className="mock-main" aria-hidden="true">
               <div className="mock-controls">
-                <p className="mock-label">Product</p>
+                <p className="mock-label">{t.mock.product}</p>
                 <div className="mock-chips">
                   <span className="mock-chip mock-on">Jacket</span>
                   <span className="mock-chip">Bag</span>
                   <span className="mock-chip">Sneakers</span>
                 </div>
-                <p className="mock-label">Concept</p>
+                <p className="mock-label">{t.mock.concept}</p>
                 <div className="mock-chips">
                   <span className="mock-chip mock-on">Tokyo Night</span>
                   <span className="mock-chip">Urban</span>
                   <span className="mock-chip">Luxury</span>
                 </div>
-                <p className="mock-label">Prompt</p>
-                <p className="mock-prompt">Oversized jacket, neon city night, cinematic…</p>
-                <span className="mock-generate">Generate campaign →</span>
+                <p className="mock-label">{t.mock.prompt}</p>
+                <p className="mock-prompt">{t.mock.promptV}</p>
+                <span className="mock-generate">{t.mock.generate}</span>
               </div>
               <div className="mock-stage">
                 <img src="/campaigns/urban-street.jpg" alt="" className="mock-stage-img" />
-                <p className="mock-stage-tag">CAMPAIGN DRAFT · 9:16</p>
+                <p className="mock-stage-tag">{t.mock.stageTag}</p>
               </div>
             </div>
           </div>
@@ -209,59 +194,30 @@ export default function LandingPage() {
 
       {/* Platform narrative */}
       <section className="block dark" id="platform">
-        <div className="label reveal">02 — The platform</div>
-        <h2 className="sec reveal">Fragmented marketing,<br /><em>into one operation.</em></h2>
-        <p className="lead reveal">
-          VyIQ: AI Media Intelligence Studio is an AI-powered platform that helps businesses create,
-          manage, monitor and optimise marketing campaigns in one integrated environment.
-        </p>
+        <div className="label reveal">{t.platform.label}</div>
+        <h2 className="sec reveal">{t.platform.h2a}<br /><em>{t.platform.h2b}</em></h2>
+        <p className="lead reveal">{t.platform.lead}</p>
         <div className="story-grid">
-          <div className="story-col reveal">
-            <p className="story-k">The problem</p>
-            <p className="story-body">
-              Businesses operate across multiple brands, products, locations, segments and channels.
-              Yet marketing is often fragmented: brand guidelines are not consistently translated into
-              daily campaigns, creative production is disconnected from performance execution, and
-              monitoring relies on separate reports and manual coordination — so brand consistency
-              slips, large campaigns are hard to coordinate, and performance never becomes improvement.
-            </p>
-          </div>
-          <div className="story-col reveal">
-            <p className="story-k">The approach</p>
-            <p className="story-body">
-              VyIQ connects the entire process — from brand strategy and communication planning to
-              creative production, campaign execution, performance marketing, monitoring and
-              optimisation. Guidelines, visual direction and campaign frameworks are translated into
-              daily activity, so campaigns across products, channels, teams and locations stay aligned
-              with one strategy.
-            </p>
-          </div>
-          <div className="story-col reveal">
-            <p className="story-k">Continuous optimisation</p>
-            <p className="story-body">
-              Beyond end-of-campaign reports: teams observe progress in real time, evaluate creative
-              effectiveness, test audiences, messages, channels and promotions, and adjust direction
-              based on measurable results. Historical insights are reused to improve future planning
-              and reduce repetitive work.
-            </p>
-          </div>
-          <div className="story-col reveal">
-            <p className="story-k">The goal</p>
-            <p className="story-body">
-              Transform fragmented marketing into a consistent, measurable, continuously optimised
-              operation — every brand, campaign, store and business unit working toward shared
-              objectives, with a clear view of execution quality and business impact.
-            </p>
-          </div>
+          {[
+            { k: t.platform.problemK, b: t.platform.problem },
+            { k: t.platform.approachK, b: t.platform.approach },
+            { k: t.platform.optimK, b: t.platform.optim },
+            { k: t.platform.goalK, b: t.platform.goal },
+          ].map((col) => (
+            <div className="story-col reveal" key={col.k}>
+              <p className="story-k">{col.k}</p>
+              <p className="story-body">{col.b}</p>
+            </div>
+          ))}
         </div>
       </section>
 
       {/* Ecosystem across TVQ */}
       <section className="block" id="ecosystem">
-        <div className="label reveal">03 — An Integrated Ecosystem Across TVQ</div>
-        <h2 className="sec reveal">One ecosystem.<br /><em>Every capability.</em></h2>
+        <div className="label reveal">{t.eco.label}</div>
+        <h2 className="sec reveal">{t.eco.h2a}<br /><em>{t.eco.h2b}</em></h2>
         <div className="eco-rows reveal">
-          {pillars.map((p, i) => (
+          {t.eco.pillars.map((p, i) => (
             <article className="eco-row" key={p.name}>
               <span className="eco-n">{String(i + 1).padStart(2, "0")}</span>
               <div className="eco-body">
@@ -276,12 +232,12 @@ export default function LandingPage() {
 
       {/* Use cases */}
       <section className="block" id="usecases">
-        <div className="label reveal">04 — Who it serves</div>
-        <h2 className="sec reveal">Built for<br /><em>complex operations.</em></h2>
+        <div className="label reveal">{t.usecases.label}</div>
+        <h2 className="sec reveal">{t.usecases.h2a}<br /><em>{t.usecases.h2b}</em></h2>
         <div className="story-grid">
-          {useCases.map((u) => (
+          {t.usecases.items.map((u) => (
             <div className="story-col reveal" key={u.title}>
-              <p className="story-k">Use case</p>
+              <p className="story-k">{t.usecases.uk}</p>
               <h3 className="story-h">{u.title}</h3>
               <p className="story-body">{u.body}</p>
             </div>
@@ -291,13 +247,13 @@ export default function LandingPage() {
 
       {/* How it works */}
       <section className="block dark" id="how">
-        <div className="label reveal">05 — How it works</div>
-        <h2 className="sec reveal">Three steps.<br /><em>Minutes, not weeks.</em></h2>
+        <div className="label reveal">{t.how.label}</div>
+        <h2 className="sec reveal">{t.how.h2a}<br /><em>{t.how.h2b}</em></h2>
         <div className="workflow-grid">
-          {workflow.map((s) => (
-            <article className="workflow-card reveal" key={s.n}>
-              <img src={s.img} alt="" loading="lazy" className="workflow-img" />
-              <p className="workflow-n">{s.n}</p>
+          {t.how.steps.map((s, i) => (
+            <article className="workflow-card reveal" key={s.t}>
+              <img src={workflowImgs[i]} alt="" loading="lazy" className="workflow-img" />
+              <p className="workflow-n">{String(i + 1).padStart(2, "0")}</p>
               <h3>{s.t}</h3>
               <p>{s.d}</p>
             </article>
@@ -307,8 +263,8 @@ export default function LandingPage() {
 
       {/* Collections */}
       <section className="block" id="collections">
-        <div className="label reveal">06 — Made with VyIQ</div>
-        <h2 className="sec reveal">Collections you can<br /><em>make today.</em></h2>
+        <div className="label reveal">{t.collections.label}</div>
+        <h2 className="sec reveal">{t.collections.h2a}<br /><em>{t.collections.h2b}</em></h2>
         <div className="visual-grid">
           {collections.map((c) => (
             <article className="visual-card reveal" key={c.label}>
@@ -317,7 +273,7 @@ export default function LandingPage() {
                 <p className="visual-label">{c.label} — {c.tag}</p>
                 <h3 className="visual-title">{c.label}</h3>
                 <p className="visual-metric">{c.metric}</p>
-                <a className="visual-link" href="/studio">Make yours →</a>
+                <a className="visual-link" href="/studio">{t.collections.make}</a>
               </div>
             </article>
           ))}
@@ -326,15 +282,15 @@ export default function LandingPage() {
 
       {/* Tools */}
       <section className="block" id="tools">
-        <div className="label reveal">07 — Try the tools</div>
-        <h2 className="sec reveal">Five tools.<br /><em>One studio.</em></h2>
+        <div className="label reveal">{t.tools.label}</div>
+        <h2 className="sec reveal">{t.tools.h2a}<br /><em>{t.tools.h2b}</em></h2>
         <div className="tools-grid">
-          {tools.map((t) => (
-            <a className="tool reveal" key={t.n} href={t.href}>
-              <span className="tool-cat">{t.n} — Live in studio</span>
-              <h3>{t.t}</h3>
-              <p>{t.d}</p>
-              <span className="tool-cta">Open →</span>
+          {t.tools.items.map((tool, i) => (
+            <a className="tool reveal" key={tool.t} href={toolsHref[i]}>
+              <span className="tool-cat">{String(i + 1).padStart(2, "0")} — {t.tools.live}</span>
+              <h3>{tool.t}</h3>
+              <p>{tool.d}</p>
+              <span className="tool-cta">{t.tools.open}</span>
             </a>
           ))}
         </div>
@@ -342,58 +298,135 @@ export default function LandingPage() {
 
       {/* Metrics */}
       <section className="block" id="metrics">
-        <div className="label reveal">08 — Proof in numbers</div>
-        <h2 className="sec reveal">Every campaign<br /><em>leaves a number.</em></h2>
+        <div className="label reveal">{t.metrics.label}</div>
+        <h2 className="sec reveal">{t.metrics.h2a}<br /><em>{t.metrics.h2b}</em></h2>
         <div className="gates-grid">
-          <div className="gate-card reveal"><p className="gnum">4</p><h3>Channels live per drop</h3><p className="who">Meta · TikTok · Google · CRM</p></div>
-          <div className="gate-card reveal"><p className="gnum">+18–24%</p><h3>Lift vs benchmark</h3><p className="who">A/B tested creative variants</p></div>
-          <div className="gate-card reveal"><p className="gnum">−60%</p><h3>Replay time</h3><p className="who">Knowledge base reuse</p></div>
-          <div className="gate-card reveal"><p className="gnum">100%</p><h3>On-brand output</h3><p className="who">Guidelines enforced by Muse Image kit</p></div>
+          {t.metrics.cards.map((m) => (
+            <div className="gate-card reveal" key={m.v}>
+              <p className="gnum">{m.v}</p>
+              <h3>{m.t}</h3>
+              <p className="who">{m.who}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Roadmap — features in development */}
+      <section className="block dark" id="roadmap">
+        <div className="label reveal">{t.roadmap.label}</div>
+        <h2 className="sec reveal">{t.roadmap.h2a}<br /><em>{t.roadmap.h2b}</em></h2>
+        <p className="lead reveal">{t.roadmap.lead}</p>
+        <div className="roadmap-grid">
+          {/* A — Campaign Planner */}
+          <article className="road-card reveal">
+            <div className="road-mock" aria-hidden="true">
+              <div className="rm-header"><i>Campaign Planner</i><b>Q1 · 8 weeks</b></div>
+              <div className="rm-gantt">
+                {[["Creative", 0, 34, "blue"], ["Production", 22, 40, "amber"], ["Media", 55, 45, "glacier"]].map(([n, l, w, c]) => (
+                  <div className="rm-row" key={n as string}>
+                    <span>{n}</span>
+                    <i className={`rm-bar rm-${c}`} style={{ left: `${l}%`, width: `${w}%` }} />
+                  </div>
+                ))}
+              </div>
+              <div className="rm-dots"><span /><span /><span className="rm-on" /><span /></div>
+            </div>
+            <p className="road-badge">{t.roadmap.soon}</p>
+            <h3>{t.roadmap.items[0].t}</h3>
+            <p className="road-body">{t.roadmap.items[0].d}</p>
+          </article>
+          {/* B — Insight AI */}
+          <article className="road-card reveal">
+            <div className="road-mock" aria-hidden="true">
+              <div className="rm-header"><i>Insight AI</i><b>+18%</b></div>
+              <div className="rm-chart">
+                {[42, 58, 49, 71, 66, 88].map((h, i) => (
+                  <i key={i} style={{ height: `${h}%` }} className={i === 5 ? "rm-hot" : ""} />
+                ))}
+              </div>
+              <p className="rm-reco">→ Shift 15% budget: TikTok &gt; Meta</p>
+            </div>
+            <p className="road-badge">{t.roadmap.beta}</p>
+            <h3>{t.roadmap.items[1].t}</h3>
+            <p className="road-body">{t.roadmap.items[1].d}</p>
+          </article>
+          {/* C — Store Compare */}
+          <article className="road-card reveal">
+            <div className="road-mock" aria-hidden="true">
+              <div className="rm-header"><i>Store Compare</i><b>12 stores</b></div>
+              <div className="rm-table">
+                {[["SG-01", 96], ["HN-03", 84], ["DN-02", 71]].map(([s, v]) => (
+                  <div className="rm-tr" key={s as string}>
+                    <span>{s}</span>
+                    <div className="rm-track"><i style={{ width: `${v}%` }} /></div>
+                    <b>+{v}%</b>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <p className="road-badge">{t.roadmap.soon}</p>
+            <h3>{t.roadmap.items[2].t}</h3>
+            <p className="road-body">{t.roadmap.items[2].d}</p>
+          </article>
+          {/* D — Brand Kit */}
+          <article className="road-card reveal">
+            <div className="road-mock" aria-hidden="true">
+              <div className="rm-header"><i>Brand Kit</i><b>4 / 4 rules</b></div>
+              <div className="rm-swatches">
+                <span style={{ background: "#101012" }} /><span style={{ background: "#2036f5" }} />
+                <span style={{ background: "#a8bfc9" }} /><span style={{ background: "#efebe3" }} />
+              </div>
+              <p className="rm-rule">✓ Palette locked · ✓ Type locked</p>
+            </div>
+            <p className="road-badge">{t.roadmap.beta}</p>
+            <h3>{t.roadmap.items[3].t}</h3>
+            <p className="road-body">{t.roadmap.items[3].d}</p>
+          </article>
         </div>
       </section>
 
       {/* Demo signup */}
-      <section className="block dark landing-signup" id="demo">
+      <section className="block landing-signup" id="demo">
         <div className="signup-copy">
-          <div className="label reveal">09 — Book a demo</div>
-          <h2 className="sec reveal">See your product<br /><em>in a campaign.</em></h2>
-          <p className="lead reveal">Bring one product. We run it through the studio live — you leave with a campaign concept and a plan to scale it.</p>
+          <div className="label reveal">{t.demo.label}</div>
+          <h2 className="sec reveal">{t.demo.h2a}<br /><em>{t.demo.h2b}</em></h2>
+          <p className="lead reveal">{t.demo.lead}</p>
         </div>
         {sent ? (
           <div className="signup-done reveal" role="status">
-            <p className="signup-done-title">✓ Request received</p>
-            <p>We'll reach out at {lead.email || "your email"} within one working day.</p>
+            <p className="signup-done-title">{t.demo.done}</p>
+            <p>{t.demo.doneBody}</p>
           </div>
         ) : (
           <form className="signup-form reveal" onSubmit={(e) => { e.preventDefault(); setSent(true); }}>
             <label>
-              Name
-              <input required value={lead.name} onChange={(e) => setLead({ ...lead, name: e.target.value })} placeholder="Nguyễn An" autoComplete="name" />
+              {t.demo.name}
+              <input required value={lead.name} onChange={(e) => setLead({ ...lead, name: e.target.value })} placeholder={t.demo.namePh} autoComplete="name" />
             </label>
             <label>
-              Work email
+              {t.demo.email}
               <input required type="email" value={lead.email} onChange={(e) => setLead({ ...lead, email: e.target.value })} placeholder="an@company.com" autoComplete="email" />
             </label>
             <label>
-              Company
-              <input value={lead.company} onChange={(e) => setLead({ ...lead, company: e.target.value })} placeholder="Company / brand" autoComplete="organization" />
+              {t.demo.company}
+              <input value={lead.company} onChange={(e) => setLead({ ...lead, company: e.target.value })} placeholder={t.demo.companyPh} autoComplete="organization" />
             </label>
-            <button type="submit" className="btn solid">Show me my campaign →</button>
-            <p className="signup-fine">Or try the studio yourself: <a href="/studio">/studio</a></p>
+            <button type="submit" className="btn solid">{t.demo.submit}</button>
+            <p className="signup-fine">{t.demo.fine}<a href="/studio">/studio</a></p>
           </form>
         )}
       </section>
 
       <section className="tagline-band tagline-band--light" aria-label="Tagline">
-        <p className="tagline-big">Kể chuyện phương Bắc. <span>Bằng ngôn ngữ hiện đại.</span></p>
-        <p className="tagline-en">Cold stories, told bright. — Nord Storia® thuộc Công ty Tâm Việt Quang</p>
+        <p className="tagline-big">{t.tagline.vn} <span>{t.tagline.vn2}</span></p>
+        <p className="tagline-en">{t.tagline.en}</p>
       </section>
 
       <footer className="cover-footer">
-        <a className="big-mail" href="mailto:hello@nordstoria.com">hello@nordstoria.com ↗</a>
+        <a className="big-mail" href="mailto:hello@nordstoria.com">{t.footer.mail}</a>
         <div className="footer-meta">
-          <span>© Nord Storia® · VyIQ 2026</span>
-          <span>Strategy → creative → execution → optimisation.</span>
+          <span>{t.footer.copy}</span>
+          <span>{t.footer.flow}</span>
         </div>
       </footer>
     </main>

@@ -5,31 +5,13 @@ export const metadata: Metadata = {
   description: "Campaign dashboard: performance, insights and recommendations.",
 };
 
-const nav = [
-  { href: "/studio", label: "Studio" },
-  { href: "/studio/dashboard", label: "Dashboard" },
-  { href: "/studio/campaigns", label: "Campaigns" },
-  { href: "/studio/brands", label: "Brands" },
-  { href: "/studio/insights", label: "Insights" },
-  { href: "/studio/knowledge", label: "Knowledge" },
-  { href: "/studio/assets", label: "Assets" },
-  { href: "/", label: "← Landing" },
-];
+
+import { CoverHeader } from "@/lib/nav";
 
 export default function DashboardPage() {
   return (
     <main className="landing">
-      <header className="landing-nav">
-        <a className="landing-brand" href="/">
-          <svg className="ns-mark" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path d="M50 4 58 42 96 50 58 58 50 96 42 58 4 50 42 42Z" fill="#101012"/><path d="M50 22 54 46 78 50 54 54 50 78 46 54 22 50 46 46Z" fill="#2036f5"/></svg>
-          <span>VyIQ Studio</span>
-        </a>
-        <nav className="landing-nav-links" aria-label="Studio">
-          {nav.map((n) => (
-            <a key={n.href} href={n.href}>{n.label}</a>
-          ))}
-        </nav>
-      </header>
+      <CoverHeader />
       <section className="landing-section">
         <p className="landing-kicker">Dashboard</p>
         <h2>Campaign performance <em>at a glance.</em></h2>

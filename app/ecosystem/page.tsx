@@ -5,15 +5,12 @@ export const metadata: Metadata = {
   description: "Nord Storia, VyIQ AI, TVIQ Technology and Robotics & IoT — one ecosystem.",
 };
 
+import { CoverHeader } from "@/lib/nav";
+
 export default function EcosystemPage() {
   return (
     <main className="landing">
-      <header className="landing-nav">
-        <a className="landing-brand" href="/"><svg className="ns-mark" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path d="M50 4 58 42 96 50 58 58 50 96 42 58 4 50 42 42Z" fill="#101012"/><path d="M50 22 54 46 78 50 54 54 50 78 46 54 22 50 46 46Z" fill="#2036f5"/></svg><span>VyIQ Ecosystem</span></a>
-        <nav className="landing-nav-links">
-          <a href="/">Home</a><a href="/ecosystem">Ecosystem</a><a href="/studio">Studio</a>
-        </nav>
-      </header>
+      <CoverHeader />
       <section className="landing-section">
         <p className="landing-kicker">TVQ Ecosystem</p>
         <h2>Strategy, intelligence, studio, <em>technology.</em></h2>
