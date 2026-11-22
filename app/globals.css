@@ -508,6 +508,10 @@ h1 em,.campaign-title h2 em,.audience-panel h2 em { font-family: var(--serif); f
 .landing-brand { display:flex; gap:9px; align-items:center; font:700 13px var(--mono); letter-spacing:1.6px; color:var(--ink); text-decoration:none; }
 .landing-brand-light { font-weight:400; }
 .landing-mark { display:grid; place-items:center; width:26px; height:26px; color:var(--blue); font-size:22px; }
+.ns-mark { width:26px; height:26px; color:var(--ink); flex:none; }
+.ns-wordmark { font-family:var(--display); font-weight:800; font-size:15px; letter-spacing:.04em; line-height:1; display:flex; flex-direction:column; }
+.ns-wordmark sup { font-size:8px; }
+.ns-sub { font-family:var(--sans); font-weight:500; font-size:9px; letter-spacing:.22em; color:var(--muted); margin-top:2px; }
 .landing-nav-links { display:flex; gap:24px; }
 .landing-nav-links a { text-decoration:none; color:var(--ink); font:500 13px var(--sans); }
 .landing-nav-links a:hover { color:var(--blue); }
@@ -594,12 +598,13 @@ h1 em, h2 em, .landing-section h2 em { font-style: normal; color: var(--blue); }
 .brand-marquee { border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); background: var(--ink); color: var(--bone); overflow: hidden; padding: 14px 0; white-space: nowrap; }
 .marquee-track { display: inline-block; animation: marquee-scroll 22s linear infinite; }
 .marquee-track span { font: 700 20px var(--display); text-transform: uppercase; margin-right: 40px; }
-.marquee-track i { color: var(--glacier); font-style: normal; margin-left: 40px; }
+.marquee-track span { position:relative; padding-right:0; }
+.marquee-track span:not(:last-child)::after { content:""; display:inline-block; width:7px; height:7px; background:var(--glacier); margin:0 26px; vertical-align:middle; transform:rotate(45deg); }
 @keyframes marquee-scroll { to { transform: translateX(-50%); } }
 .tagline-band { background: var(--ink); color: var(--bone); padding: clamp(40px, 6vw, 80px) 0; }
 .tagline-big { font: 800 clamp(30px, 5vw, 60px) / 1.12 var(--display); letter-spacing: -.025em; max-width: 900px; margin: 0; }
 .tagline-big span { color: var(--glacier); }
-.tagline-en { opacity: .7; margin-top: 16px; }
+.tagline-en { font-family:var(--display); font-weight:700; letter-spacing:.04em; opacity:.7; margin-top:16px; text-transform:none; }
 .big-mail { font: 800 clamp(26px, 4.5vw, 48px) var(--display); color: var(--ink); text-decoration: none; }
 .big-mail:hover { color: var(--blue); }
 .landing-footer-big { flex-direction: column; align-items: flex-start; gap: 10px; }

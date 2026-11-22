@@ -88,8 +88,13 @@ export default function LandingPage() {
     <main className="landing">
       <header className="landing-nav">
         <a className="landing-brand" href="/">
-          <span className="landing-mark" aria-hidden="true">✳</span>
-          <span>VyIQ<span className="landing-brand-light"> AI Media Intelligence Studio</span></span>
+          <svg className="ns-mark" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+            <g fill="none" stroke="currentColor" strokeWidth="4">
+              <path d="M50 2 L50 98 M2 50 L98 50 M16 16 L84 84 M84 16 L16 84"/>
+            </g>
+            <circle cx="50" cy="50" r="10" fill="currentColor"/>
+          </svg>
+          <span className="ns-wordmark">NORD STORIA<sup>®</sup><small className="ns-sub">VYIQ AI STUDIO</small></span>
         </a>
         <nav className="landing-nav-links" aria-label="Primary">
           <a href="#capabilities">Capabilities</a>
@@ -104,7 +109,7 @@ export default function LandingPage() {
       </header>
 
       <section className="landing-hero">
-        <p className="landing-eyebrow">★ Integrated AI Marketing &amp; Campaign Management Ecosystem</p>
+        <p className="landing-eyebrow">Integrated AI Marketing &amp; Campaign Management Ecosystem</p>
         <h1>
           Create. Manage. Monitor.
           <br />
@@ -205,15 +210,14 @@ export default function LandingPage() {
 
       <div className="brand-marquee" aria-hidden="true">
         <div className="marquee-track">
-          <span>NORD STORIA<i>✳</i></span><span>VYIQ AI STUDIO<i>✳</i></span><span>COLD STORIES, TOLD BRIGHT<i>✳</i></span>
-          <span>NORD STORIA<i>✳</i></span><span>VYIQ AI STUDIO<i>✳</i></span><span>COLD STORIES, TOLD BRIGHT<i>✳</i></span>
+          <span>NORD STORIA</span><span>VYIQ AI STUDIO</span><span>COLD STORIES, TOLD BRIGHT</span>
+          <span>NORD STORIA</span><span>VYIQ AI STUDIO</span><span>COLD STORIES, TOLD BRIGHT</span>
         </div>
       </div>
 
       <section className="tagline-band">
-        <p className="landing-kicker">Tagline chính thức</p>
         <p className="tagline-big">Kể chuyện phương Bắc. <span>Bằng ngôn ngữ hiện đại.</span></p>
-        <p className="tagline-en">“Cold stories, told bright.” — Nord Storia® · Thuộc Công ty Tâm Việt Quang</p>
+        <p className="tagline-en">Cold stories, told bright. — Nord Storia® thuộc Công ty Tâm Việt Quang</p>
       </section>
 
       <footer className="landing-footer landing-footer-big">

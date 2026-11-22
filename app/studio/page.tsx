@@ -11,12 +11,12 @@ import {
 const featuredProduct = { brand: "Tâm Việt Quang", name: "Signature piece", type: "Jacket" };
 
 const products = [
-  { name: "Jacket", detail: "Outerwear", type: "Jacket", icon: "✳" },
-  { name: "T-Shirt", detail: "Essentials", type: "T-Shirt", icon: "▱" },
-  { name: "Bag", detail: "Accessories", type: "Bag", icon: "▰" },
-  { name: "Sneakers", detail: "Footwear", type: "Sneakers", icon: "⌁" },
-  { name: "Cap", detail: "Accessories", type: "Cap", icon: "◒" },
-  { name: "Necklace", detail: "Jewelry", type: "Necklace", icon: "⌘" },
+  { name: "Jacket", detail: "Outerwear", type: "Jacket", icon: "J-01" },
+  { name: "T-Shirt", detail: "Essentials", type: "T-Shirt", icon: "TS-03" },
+  { name: "Bag", detail: "Accessories", type: "Bag", icon: "B-04" },
+  { name: "Sneakers", detail: "Footwear", type: "Sneakers", icon: "S-02" },
+  { name: "Cap", detail: "Accessories", type: "Cap", icon: "C-05" },
+  { name: "Necklace", detail: "Jewelry", type: "Necklace", icon: "N-06" },
 ];
 
 const concepts = [
