@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap');
 @font-face { font-family: 'Syne Viet'; src: url('/fonts/SyneViet-700.woff2') format('woff2'); font-weight: 700; font-display: swap; }
 @font-face { font-family: 'Syne Viet'; src: url('/fonts/SyneViet-800.woff2') format('woff2'); font-weight: 800; font-display: swap; }
 
@@ -18,10 +18,10 @@
   --olive: #2036f5;
   --gold: #a8bfc9;
   /* Type roles: Display Syne Viet, Body Space Grotesk (keep old tokens) */
-  --serif: "Syne Viet", "Syne", "Space Grotesk", Arial, sans-serif;
+  --serif: 'Syne Viet', 'Syne', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
   --sans: "Space Grotesk", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-  --mono: "Space Grotesk", "DM Mono", monospace;
-  --display: "Syne Viet", "Syne", "Space Grotesk", Arial, sans-serif;
+  --mono: "Space Grotesk", "Segoe UI", Arial, sans-serif;
+  --display: 'Syne Viet', 'Syne', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
 }
 
 * { box-sizing: border-box; }

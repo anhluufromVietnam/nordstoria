@@ -9,7 +9,7 @@ export default function InsightsPage() {
   return (
     <main className="landing">
       <header className="landing-nav">
-        <a className="landing-brand" href="/"><svg className="ns-mark" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" strokeWidth="4"><path d="M50 2 L50 98 M2 50 L98 50 M16 16 L84 84 M84 16 L16 84"/></g><circle cx="50" cy="50" r="10" fill="currentColor"/></svg><span>VyIQ Studio</span></a>
+        <a className="landing-brand" href="/"><svg className="ns-mark" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><path d="M50 4 58 42 96 50 58 58 50 96 42 58 4 50 42 42Z" fill="#101012"/><path d="M50 22 54 46 78 50 54 54 50 78 46 54 22 50 46 46Z" fill="#2036f5"/></svg><span>VyIQ Studio</span></a>
         <nav className="landing-nav-links">
           <a href="/studio">Studio</a><a href="/studio/dashboard">Dashboard</a><a href="/studio/insights">Insights</a><a href="/studio/campaigns">Campaigns</a><a href="/">← Landing</a>
         </nav>
