@@ -11,12 +11,12 @@ import {
 const featuredProduct = { brand: "Tâm Việt Quang", name: "Signature piece", type: "Jacket" };
 
 const products = [
-  { name: "Jacket", detail: "Outerwear", type: "Jacket", icon: "J-01" },
-  { name: "T-Shirt", detail: "Essentials", type: "T-Shirt", icon: "TS-03" },
-  { name: "Bag", detail: "Accessories", type: "Bag", icon: "B-04" },
-  { name: "Sneakers", detail: "Footwear", type: "Sneakers", icon: "S-02" },
-  { name: "Cap", detail: "Accessories", type: "Cap", icon: "C-05" },
-  { name: "Necklace", detail: "Jewelry", type: "Necklace", icon: "N-06" },
+  { name: "Jacket", detail: "Outerwear", type: "Jacket", icon: "J-01", img: "/Demo/Jacket.jpg" },
+  { name: "T-Shirt", detail: "Essentials", type: "T-Shirt", icon: "TS-03", img: "/Demo/T-Shirt.jpg" },
+  { name: "Bag", detail: "Accessories", type: "Bag", icon: "B-04", img: "/Demo/Bag.jpg" },
+  { name: "Sneakers", detail: "Footwear", type: "Sneakers", icon: "S-02", img: "/Demo/Sneakers.jpg" },
+  { name: "Cap", detail: "Accessories", type: "Cap", icon: "C-05", img: "/Demo/Cap.jpg" },
+  { name: "Necklace", detail: "Jewelry", type: "Necklace", icon: "N-06", img: "/Demo/Necklace.jpg" },
 ];
 
 const concepts = [
@@ -648,7 +648,7 @@ export default function Home() {
                     </div>
                     <div className="product-grid product-grid-single">
                       <div className="product-card product-selected product-locked" aria-pressed="true">
-                        <span className="product-icon"><Sparkle /></span><span className="product-info"><b>{featuredProduct.brand}</b><small>{featuredProduct.name}</small></span><span className="check-mark">✓</span>
+                        <span className="product-icon product-icon-photo"><img src="/Demo/Jacket.jpg" alt="" loading="lazy" /></span><span className="product-info"><b>{featuredProduct.brand}</b><small>{featuredProduct.name}</small></span><span className="check-mark">✓</span>
                       </div>
                     </div>
                   </div>
@@ -658,7 +658,7 @@ export default function Home() {
                       {products.map((product) => {
                         const selected = selectedProducts.includes(product.name);
                         return <button key={product.name} className={`product-card${selected ? " product-selected" : ""}`} onClick={() => toggleProduct(product.name)} aria-pressed={selected} disabled={!selected && selectedProducts.length >= 3}>
-                          <span className="product-icon">{product.icon}</span><span className="product-info"><b>{product.name}</b><small>{product.detail}</small></span><span className="check-mark">{selected ? "✓" : "+"}</span>
+                          <span className="product-icon product-icon-photo"><img src={product.img} alt="" loading="lazy" /></span><span className="product-info"><b>{product.name}</b><small>{product.detail}</small></span><span className="check-mark">{selected ? "✓" : "+"}</span>
                         </button>;
                       })}
                     </div>

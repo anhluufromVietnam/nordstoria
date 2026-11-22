@@ -73,6 +73,9 @@ h1 em,.campaign-title h2 em,.audience-panel h2 em { font-family: var(--serif); f
 .product-card.product-selected { background: #f8f7f3; border-color: #929078; }
 .product-card:disabled { opacity: .42; cursor: not-allowed; }
 .product-icon { display: grid; place-items: center; width: 27px; height: 31px; color: #2036f5; background: #eeece5; font-size: 17px; flex: 0 0 auto; }
+.product-icon-photo { width: 44px; height: 44px; overflow: hidden; background: var(--ink); padding: 0; }
+.product-icon-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+@media (max-width: 900px) { .product-icon-photo { width: 38px; height: 38px; } }
 .product-info { display: flex; min-width: 0; flex-direction: column; gap: 4px; }
 .product-info b { white-space: nowrap; font-size: 10px; font-weight: 600; }
 .product-info small { color: #a19d94; white-space: nowrap; font-size: 10px; }
