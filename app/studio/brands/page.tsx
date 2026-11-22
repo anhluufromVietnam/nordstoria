@@ -1,32 +1,58 @@
 import type { Metadata } from "next";
+import { CoverHeader } from "@/lib/nav";
 
 export const metadata: Metadata = {
   title: "Brands — VyIQ Studio",
   description: "Brand guidelines and visual direction for consistent campaigns.",
 };
 
-import { CoverHeader } from "@/lib/nav";
+const brands = [
+  { n: "01", name: "Nord Storia®", tag: "Master brand", body: "Palette: Ivory · Ink · International Blue · Mist. Type: Syne Viet / Space Grotesk / Space Mono. Voice: confident, aspirational, minimal — cold stories, told bright." },
+  { n: "02", name: "VyIQ", tag: "Intelligence", body: "AI Media Intelligence Studio. Mark: eight-pointed compass star, always stamped on generated media." },
+  { n: "03", name: "Brand guardrails", tag: "Enforced per generation", body: "No text in images, no watermark, studio backgrounds, commercial catalogue quality. Checked by the pipeline, not by memory." },
+  { n: "04", name: "Multi-brand", tag: "Local execution", body: "Central brand and campaign management with localised execution per store, branch and business unit." },
+];
+
+const swatches = [
+  { c: "#101012", n: "Obsidian" },
+  { c: "#2036F5", n: "Nordic Blue" },
+  { c: "#A8BFC9", n: "Glacier Mist" },
+  { c: "#EFEBE3", n: "Bone White" },
+];
 
 export default function BrandsPage() {
   return (
     <main className="landing">
       <CoverHeader />
-      <section className="landing-section">
-        <p className="landing-kicker">Brands</p>
-        <h2>Brand consistency, <em>by default.</em></h2>
-        <p className="landing-section-lead">
+      <section className="block">
+        <div className="label">Brands — Guidelines as data</div>
+        <h2 className="sec">Brand consistency,<br /><em>by default.</em></h2>
+        <p className="lead">
           Brand guidelines, communication principles, visual direction, content
           standards and campaign frameworks — translated into every campaign
           across products, channels, teams and locations.
         </p>
-        <div className="app-grid">
-          <article className="app-card"><h3>Nord Storia®</h3><p>Palette: Ivory · Ink · International Blue · Mist. Type: Playfair / DM Sans / DM Mono. Voice: confident, aspirational, minimal.</p></article>
-          <article className="app-card"><h3>VyIQ</h3><p>AI Media Intelligence Studio. Mark: eight-pointed compass star. Always stamped on generated media.</p></article>
-          <article className="app-card"><h3>Brand guardrails</h3><p>No text in images, no watermark, studio backgrounds, commercial catalogue quality. Enforced per generation.</p></article>
-          <article className="app-card"><h3>Multi-brand</h3><p>Central brand and campaign management with localised execution per store, branch and business unit.</p></article>
+        <div className="rm-swatches" style={{ background: "var(--ink)", padding: 18, marginBottom: 26 }} aria-label="Brand palette">
+          {swatches.map((s) => (
+            <span key={s.c} title={s.n} style={{ background: s.c, width: 48, height: 48, border: "1px solid rgba(239,235,227,.3)" }} />
+          ))}
+        </div>
+        <div className="eco-rows">
+          {brands.map((b) => (
+            <article className="eco-row" key={b.n}>
+              <span className="eco-n">{b.n}</span>
+              <div className="eco-body">
+                <p className="eco-tag">{b.tag}</p>
+                <h3>{b.name}</h3>
+                <p>{b.body}</p>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
-      <footer className="landing-footer"><span>© VyIQ × Nord Storia 2026</span><span><a href="/studio">← Back to Studio</a></span></footer>
+      <footer className="cover-footer">
+        <div className="footer-meta"><span>© VyIQ × Nord Storia 2026</span><span><a href="/studio">← Back to Studio</a></span></div>
+      </footer>
     </main>
   );
 }

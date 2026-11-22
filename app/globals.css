@@ -768,6 +768,15 @@ h1 em,.campaign-title h2 em,.audience-panel h2 em { font-family: var(--serif); f
 .signup-done-title { font: 700 18px var(--display); color: var(--blue); margin: 0 0 8px; }
 .signup-done p { margin: 0; font: 400 14px/1.6 var(--sans); color: rgba(16,16,18,.8); }
 
+/* Studio sub-pages */
+.status-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; }
+.status-glacier { background: var(--glacier); box-shadow: 0 0 0 3px rgba(168,191,201,.25); }
+.status-amber { background: var(--amber); box-shadow: 0 0 0 3px rgba(242,169,59,.25); }
+.status-muted { background: var(--muted); box-shadow: 0 0 0 3px rgba(111,107,98,.2); }
+.dash-head .gates-grid { margin-top: 8px; }
+a.eco-row { cursor: pointer; }
+a.eco-row:hover { background: rgba(32,54,245,.05); padding-left: 14px; }
+
 /* Language switch */
 .nav-end { display: flex; align-items: center; gap: 12px; }
 .lang-switch { display: flex; border: 1px solid rgba(255,255,255,.5); }

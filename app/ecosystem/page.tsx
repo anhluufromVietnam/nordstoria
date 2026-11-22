@@ -1,27 +1,47 @@
 import type { Metadata } from "next";
+import { CoverHeader } from "@/lib/nav";
 
 export const metadata: Metadata = {
   title: "Ecosystem — VyIQ × Nord Storia",
   description: "Nord Storia, VyIQ AI, TVIQ Technology and Robotics & IoT — one ecosystem.",
 };
 
-import { CoverHeader } from "@/lib/nav";
+const pillars = [
+  { n: "01", name: "Nord Storia", tag: "Brand & Media Strategy", body: "Brand positioning, guidelines, communication strategy, campaign planning, creative direction, social, digital and performance marketing, media operations." },
+  { n: "02", name: "VyIQ AI & Enterprise Solutions", tag: "Campaign Intelligence", body: "AI-powered campaign intelligence, workflow automation, business dashboards, knowledge management, performance analysis and intelligent recommendations." },
+  { n: "03", name: "VyIQ × Nord Storia AI Studio", tag: "Generative AI", body: "Campaign concepts, branded visual production with Muse Image, creative adaptation and marketing content development." },
+  { n: "04", name: "TVIQ Technology Solutions", tag: "Digital Platforms", body: "Digital platforms, enterprise applications, system integration and centralised operational management." },
+  { n: "05", name: "Robotics & IoT", tag: "Connected Experiences", body: "Extend campaign experiences into physical retail, connected stores and interactive customer experiences." },
+];
 
 export default function EcosystemPage() {
   return (
     <main className="landing">
       <CoverHeader />
-      <section className="landing-section">
-        <p className="landing-kicker">TVQ Ecosystem</p>
-        <h2>Strategy, intelligence, studio, <em>technology.</em></h2>
-        <div className="app-grid">
-          <article className="app-card"><h3>Nord Storia</h3><p>Brand &amp; Media Strategy — positioning, guidelines, campaign planning, creative direction, digital &amp; performance marketing, media operations.</p></article>
-          <article className="app-card"><h3>VyIQ AI &amp; Enterprise Solutions</h3><p>Campaign intelligence, workflow automation, dashboards, knowledge management, performance analysis, recommendations.</p></article>
-          <article className="app-card"><h3>VyIQ × Nord Storia AI Studio</h3><p>Generative AI: concepts, branded visuals (Muse Image), creative adaptation, content development.</p></article>
-          <article className="app-card"><h3>TVIQ Technology + Robotics &amp; IoT</h3><p>Enterprise platforms, system integration, connected stores and interactive retail experiences.</p></article>
+      <section className="block">
+        <div className="label">An Integrated Ecosystem Across TVQ</div>
+        <h2 className="sec">One ecosystem.<br /><em>Every capability.</em></h2>
+        <p className="lead">
+          Together, these capabilities create a unified approach to brand management
+          and marketing operations — connecting strategy, creative production,
+          execution, monitoring, experimentation and continuous improvement.
+        </p>
+        <div className="eco-rows">
+          {pillars.map((p) => (
+            <article className="eco-row" key={p.n}>
+              <span className="eco-n">{p.n}</span>
+              <div className="eco-body">
+                <p className="eco-tag">{p.tag}</p>
+                <h3>{p.name}</h3>
+                <p>{p.body}</p>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
-      <footer className="landing-footer"><span>© VyIQ × Nord Storia 2026</span><span><a href="/">← Back to landing</a></span></footer>
+      <footer className="cover-footer">
+        <div className="footer-meta"><span>© VyIQ × Nord Storia 2026</span><span><a href="/">← Back to landing</a></span></div>
+      </footer>
     </main>
   );
 }

@@ -1,33 +1,49 @@
 import type { Metadata } from "next";
+import { CoverHeader } from "@/lib/nav";
 
 export const metadata: Metadata = {
   title: "Campaigns — VyIQ Studio",
   description: "Plan, execute and monitor integrated campaigns.",
 };
 
-import { CoverHeader } from "@/lib/nav";
+const campaigns = [
+  { n: "01", name: "Tokyo Night — Signature Drop", status: "Live", detail: "4 channels · 12 stores · +18% vs benchmark", tone: "glacier", href: "/studio" },
+  { n: "02", name: "Quiet Luxury — Core Collection", status: "Testing", detail: "3 creatives A/B · winner emerging on paid social", tone: "amber", href: "/studio/insights" },
+  { n: "03", name: "Urban Street — Drop 02", status: "Planning", detail: "Guidelines applied · draft assets in Muse Image", tone: "muted", href: "/studio/assets" },
+  { n: "04", name: "Summer Escape — Regional Rollout", status: "Live", detail: "Localised per store · compare to replicate winners", tone: "glacier", href: "/studio/dashboard" },
+];
 
 export default function CampaignsPage() {
   return (
     <main className="landing">
       <CoverHeader />
-      <section className="landing-section">
-        <p className="landing-kicker">Campaigns</p>
-        <h2>Integrated campaigns, <em>end to end.</em></h2>
-        <p className="landing-section-lead">
-          Campaign concepts, creative direction, content production, social media
-          management, digital advertising, performance marketing and promotional
-          activities — coordinated across internal teams, agencies, regional
-          branches, retail stores and digital channels.
+      <section className="block">
+        <div className="label">Campaigns — Plan, execute, monitor</div>
+        <h2 className="sec">Integrated campaigns,<br /><em>end to end.</em></h2>
+        <p className="lead">
+          Campaign concepts, creative direction, content production, social media,
+          digital advertising, performance marketing and promotions — coordinated
+          across teams, agencies, branches, retail stores and digital channels.
         </p>
-        <div className="app-grid">
-          <article className="app-card"><h3>Tokyo Night — Signature</h3><p>Status: Live · 4 channels · 12 stores. Performance +18% vs benchmark. <a href="/studio">Open in Studio →</a></p></article>
-          <article className="app-card"><h3>Quiet Luxury — Core</h3><p>Status: Testing · 3 creatives A/B. Winner emerging on paid social. <a href="/studio/insights">View insights →</a></p></article>
-          <article className="app-card"><h3>Urban Street — Drop 02</h3><p>Status: Planning. Brand guidelines applied. Draft assets in Muse Image. <a href="/studio/assets">Assets →</a></p></article>
-          <article className="app-card"><h3>Summer Escape — Regional</h3><p>Status: Live · localised per store. Compare store performance to replicate winners.</p></article>
+        <div className="eco-rows">
+          {campaigns.map((c) => (
+            <a className="eco-row" href={c.href} key={c.n} style={{ textDecoration: "none", color: "inherit" }}>
+              <span className="eco-n">{c.n}</span>
+              <div className="eco-body">
+                <p className="eco-tag">{c.name}</p>
+                <h3 style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                  <i className={`status-dot status-${c.tone}`} />
+                  {c.status}
+                </h3>
+                <p>{c.detail}</p>
+              </div>
+            </a>
+          ))}
         </div>
       </section>
-      <footer className="landing-footer"><span>© VyIQ × Nord Storia 2026</span><span><a href="/studio">← Back to Studio</a></span></footer>
+      <footer className="cover-footer">
+        <div className="footer-meta"><span>© VyIQ × Nord Storia 2026</span><span><a href="/studio">← Back to Studio</a></span></div>
+      </footer>
     </main>
   );
 }
