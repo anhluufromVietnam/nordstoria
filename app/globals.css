@@ -601,10 +601,12 @@ h1 em, h2 em, .landing-section h2 em { font-style: normal; color: var(--blue); }
 .marquee-track span { position:relative; padding-right:0; }
 .marquee-track span:not(:last-child)::after { content:""; display:inline-block; width:7px; height:7px; background:var(--glacier); margin:0 26px; vertical-align:middle; transform:rotate(45deg); }
 @keyframes marquee-scroll { to { transform: translateX(-50%); } }
-.tagline-band { background: var(--ink); color: var(--bone); padding: 0 0 clamp(48px, 6vw, 88px); }
-.tagline-inner { padding: clamp(40px, 5vw, 72px) clamp(20px, 4vw, 56px) 0; max-width: 1200px; margin: 0 auto; }
-.tagline-eyebrow { font-family: var(--display); font-weight: 700; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--glacier); margin: 0 0 18px; }
-.brand-marquee-inside { border: none; border-bottom: 1px solid rgba(239,235,227,.18); }
+.tagline-band { padding: clamp(48px, 6vw, 80px) 4vw; border-top: 1px solid var(--ink); }
+.tagline-band--light { background: var(--bone); color: var(--ink); }
+.tagline-band--light .tagline-big span { color: var(--blue); }
+.tagline-band--light .tagline-en { font-family: var(--display); font-weight: 700; opacity: .6; }
+
+
 .tagline-big { font: 800 clamp(34px, 5.2vw, 68px) / 1.28 var(--display); letter-spacing: -.02em; max-width: 900px; margin: 0; padding-bottom: .12em; }
 .tagline-big span { color: var(--glacier); }
 .tagline-en { font-family:var(--display); font-weight:700; letter-spacing:.04em; opacity:.7; margin-top:16px; text-transform:none; }

@@ -233,18 +233,9 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="tagline-band">
-        <div className="brand-marquee brand-marquee-inside" aria-hidden="true">
-          <div className="marquee-track">
-            <span>Nord Storia</span><span>VyIQ AI Studio</span><span>Cold stories, told bright</span>
-            <span>Nord Storia</span><span>VyIQ AI Studio</span><span>Cold stories, told bright</span>
-          </div>
-        </div>
-        <div className="tagline-inner">
-          <p className="tagline-eyebrow">Nord Storia — Media agency · Tâm Việt Quang</p>
-          <p className="tagline-big">Kể chuyện phương Bắc.<br /><span>Bằng ngôn ngữ hiện đại.</span></p>
-          <p className="tagline-en">Cold stories, told bright. — Nord Storia® thuộc Công ty Tâm Việt Quang</p>
-        </div>
+      <section className="tagline-band tagline-band--light" aria-label="Tagline">
+        <p className="tagline-big">Kể chuyện phương Bắc. <span>Bằng ngôn ngữ hiện đại.</span></p>
+        <p className="tagline-en">Cold stories, told bright. — Nord Storia® thuộc Công ty Tâm Việt Quang</p>
       </section>
 
       <footer className="landing-footer landing-footer-big">
