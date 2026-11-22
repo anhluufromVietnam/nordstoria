@@ -95,6 +95,8 @@ export default function LandingPage() {
           <a href="#capabilities">Capabilities</a>
           <a href="#ecosystem">Ecosystem</a>
           <a href="#usecases">Use cases</a>
+          <a href="#metrics">Metrics</a>
+          <a href="#demo">Tools</a>
           <a href="#pricing">Pricing</a>
         </nav>
         <div className="landing-nav-cta">
@@ -200,6 +202,30 @@ export default function LandingPage() {
         <div className="landing-hero-cta">
           <a className="landing-btn landing-btn-dark landing-btn-lg" href="/studio">Start creating →</a>
           <a className="landing-btn landing-btn-ghost landing-btn-lg" href="/studio/dashboard">View dashboard</a>
+        </div>
+      </section>
+
+      <section className="landing-section landing-metrics" id="metrics">
+        <p className="landing-kicker">Proof in numbers</p>
+        <h2>Every campaign <em>leaves a number.</em></h2>
+        <div className="metric-row">
+          <div className="metric"><p className="metric-value">4</p><p className="metric-label">Channels live per drop</p><p className="metric-detail">Meta · TikTok · Google · CRM</p></div>
+          <div className="metric"><p className="metric-value">+18–24%</p><p className="metric-label">Lift vs benchmark</p><p className="metric-detail">A/B tested creative variants</p></div>
+          <div className="metric"><p className="metric-value">12</p><p className="metric-label">Campaigns reused</p><p className="metric-detail">Knowledge base replay time −60%</p></div>
+          <div className="metric"><p className="metric-value">100%</p><p className="metric-label">On-brand output</p><p className="metric-detail">Guidelines enforced by Muse Image kit</p></div>
+        </div>
+      </section>
+
+      <section className="landing-section landing-demo" id="demo">
+        <p className="landing-kicker">Try the tools</p>
+        <h2>Five tools. <em>One studio.</em></h2>
+        <p className="landing-lead">Hover to preview — click to open. Every tool below is live in <a href="/studio">/studio</a> with Muse Image behind it.</p>
+        <div className="demo-grid">
+          <a className="demo-card" href="/studio"><span className="demo-num">01</span><h3>Product Screenshot</h3><p>Text→image packshot with Muse Image. Try: “obsidian oversized jacket, neon city night”.</p><span className="demo-cta">Open tool →</span></a>
+          <a className="demo-card" href="/studio"><span className="demo-num">02</span><h3>Virtual Try-On</h3><p>Person + garment → one photorealistic photo. Try: Jacket.jpg + your product.</p><span className="demo-cta">Open tool →</span></a>
+          <a className="demo-card" href="/studio"><span className="demo-num">03</span><h3>Campaign</h3><p>Concept, image and Muse Spark caption + hashtags in one click.</p><span className="demo-cta">Open tool →</span></a>
+          <a className="demo-card" href="/studio/dashboard"><span className="demo-num">04</span><h3>Dashboard</h3><p>Performance, channels, store comparison and AI recommendations.</p><span className="demo-cta">Open tool →</span></a>
+          <a className="demo-card" href="/studio/knowledge"><span className="demo-num">05</span><h3>Knowledge Base</h3><p>Search past campaigns. Reuse briefs, images and what worked.</p><span className="demo-cta">Open tool →</span></a>
         </div>
       </section>
 
