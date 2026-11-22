@@ -169,7 +169,7 @@ BRAND_STAR_INNER = ((50, 22), (54, 46), (78, 50), (54, 54), (50, 78), (46, 54), 
 BRAND_WORDMARK = "VYIQ × NORD STORIA"
 
 
-def _brand_logo_mark(size: int, outer, inner) -> Image.Image:
+def _brand_logo_mark(size: int, outer, inner):
     mark = PILImage.new("RGBA", (size, size), (0, 0, 0, 0))
     draw = ImageDraw.Draw(mark)
     scale = size / 100.0
