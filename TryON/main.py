@@ -3,6 +3,7 @@ import re
 import io
 import json
 import uuid
+import base64
 from datetime import datetime, timezone
 
 from dotenv import load_dotenv
@@ -16,32 +17,15 @@ from fastapi import FastAPI, UploadFile, File, HTTPException, Form, Request
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 
-from google import genai
-from google.genai.types import (
-    RecontextImageSource,
-    ProductImage,
-    Image,
-    GenerateImagesConfig,
-    GenerateContentConfig,
-    ImageConfig,
-    Part,
-)
+import httpx
 
-PROJECT_ID = os.getenv(
-    "GOOGLE_CLOUD_PROJECT",
-    "spry-sensor-509018-t5"
-)
-
-LOCATION = os.getenv(
-    "GOOGLE_CLOUD_LOCATION",
-    "global"
-)
-
-client = genai.Client(
-    vertexai=True,
-    project=PROJECT_ID,
-    location=LOCATION,
-)
+# ---------------------------------------------------------------------------
+# Meta Model API (Muse Image for images, Muse Spark for text)
+# ---------------------------------------------------------------------------
+META_API_URL = os.getenv("META_API_URL", "https://api.meta.ai/v1")
+MODEL_API_KEY = os.getenv("MODEL_API_KEY", "")
+IMAGE_MODEL = os.getenv("MUSE_IMAGE_MODEL", "muse-image-1.0")
+TEXT_MODEL = os.getenv("MUSE_TEXT_MODEL", "muse-spark-1.3")
 
 app = FastAPI()
 
@@ -56,22 +40,120 @@ app.add_middleware(
 os.makedirs("uploads", exist_ok=True)
 os.makedirs("results", exist_ok=True)
 
-# Model fallback chains: first available model wins.
-IMAGEN_MODELS = [
-    "imagen-4.0-generate-001",
-    "imagen-3.0-generate-002",
-    "imagen-3.0-generate-001",
-]
+_client = httpx.Client(timeout=180.0)
 
-GEMINI_IMAGE_MODELS = [
-    "gemini-2.5-flash-image",
-    "gemini-2.0-flash-preview-image-generation",
-]
 
-TEXT_MODELS = [
-    "gemini-2.5-flash",
-    "gemini-2.0-flash",
-]
+def _meta_headers():
+    return {
+        "Authorization": f"Bearer {MODEL_API_KEY}",
+        "Content-Type": "application/json",
+    }
+
+
+def _require_key():
+    if not MODEL_API_KEY:
+        raise Exception("MODEL_API_KEY is not set. Configure Meta Model API key in TryON/.env")
+
+
+def _decode_b64_image(data: list) -> bytes:
+    if not data:
+        raise Exception("Muse Image returned no images")
+    item = data[0]
+    b64 = item.get("b64_json") or item.get("b64") or ""
+    if not b64:
+        url = item.get("url", "")
+        if url:
+            resp = _client.get(url)
+            resp.raise_for_status()
+            return resp.content
+        raise Exception("Muse Image response has no image data")
+    return base64.b64decode(b64)
+
+
+def _generate_product_image(prompt: str) -> bytes:
+    """Text-to-image via Meta Muse Image (OpenAI-compatible endpoint)."""
+    _require_key()
+    resp = _client.post(
+        f"{META_API_URL}/images/generations",
+        headers=_meta_headers(),
+        json={
+            "model": IMAGE_MODEL,
+            "prompt": prompt,
+            "n": 1,
+            "size": "1024x1024",
+            "response_format": "b64_json",
+            "output_format": "png",
+        },
+    )
+    resp.raise_for_status()
+    return _decode_b64_image(resp.json().get("data", []))
+
+
+def _sniff_mime(data: bytes) -> str:
+    if data.startswith(b"\xff\xd8\xff"):
+        return "image/jpeg"
+    if data.startswith(b"\x89PNG\r\n\x1a\n"):
+        return "image/png"
+    if data.startswith(b"RIFF") and data[8:12] == b"WEBP":
+        return "image/webp"
+    if data.startswith(b"GIF"):
+        return "image/gif"
+    return "image/png"
+
+
+def _edit_images(prompt: str, images: list[bytes], mime: str = "", size: str = "1024x1024") -> bytes:
+    """Image edit / multi-image composition via Meta Muse Image edits endpoint."""
+    _require_key()
+    files = []
+    for i, img in enumerate(images):
+        img_mime = mime or _sniff_mime(img)
+        ext = {"image/jpeg": "jpg", "image/png": "png", "image/webp": "webp", "image/gif": "gif"}.get(img_mime, "png")
+        files.append(("image", (f"image{i}.{ext}", img, img_mime)))
+    resp = _client.post(
+        f"{META_API_URL}/images/edits",
+        headers={"Authorization": f"Bearer {MODEL_API_KEY}"},
+        files=files,
+        data={"model": IMAGE_MODEL, "prompt": prompt, "n": 1, "size": size},
+    )
+    resp.raise_for_status()
+    return _decode_b64_image(resp.json().get("data", []))
+
+
+def _generate_campaign_image(prompt: str, source_image: bytes, mime_type: str = "") -> bytes:
+    return _edit_images(prompt, [source_image], mime_type, size="1792x1024")
+
+
+def _try_on_image(person_bytes: bytes, clothing_bytes: bytes) -> bytes:
+    """Virtual try-on: compose person + garment into one photo with Muse Image."""
+    prompt = (
+        "Virtual try-on: dress the person in the first image wearing the garment "
+        "from the second image. Keep the person's face, hair, pose, body shape, "
+        "lighting and background exactly the same; replace only the clothing "
+        "with the garment, matching its color, fabric, cut and details "
+        "realistically with natural folds and shadows. Photorealistic, "
+        "high detail, no text, no watermark."
+    )
+    return _edit_images(prompt, [person_bytes, clothing_bytes], size="1024x1024")
+
+
+def _generate_text(prompt: str) -> str:
+    """Text generation via Muse Spark (OpenAI-compatible chat completions)."""
+    _require_key()
+    resp = _client.post(
+        f"{META_API_URL}/chat/completions",
+        headers=_meta_headers(),
+        json={
+            "model": TEXT_MODEL,
+            "messages": [{"role": "user", "content": prompt}],
+        },
+    )
+    resp.raise_for_status()
+    choices = resp.json().get("choices") or []
+    if choices:
+        content = (choices[0].get("message") or {}).get("content")
+        if content:
+            return str(content).strip()
+    raise Exception("Text generation returned no content")
 
 
 def _save_image_bytes(data: bytes) -> str:
@@ -87,7 +169,7 @@ BRAND_STAR_INNER = ((50, 22), (54, 46), (78, 50), (54, 54), (50, 78), (46, 54), 
 BRAND_WORDMARK = "VYIQ × NORD STORIA"
 
 
-def _brand_logo_mark(size: int, outer, inner) -> Image.Image:
+def _brand_logo_mark(size: int, outer, inner):
     mark = PILImage.new("RGBA", (size, size), (0, 0, 0, 0))
     draw = ImageDraw.Draw(mark)
     scale = size / 100.0
@@ -179,137 +261,31 @@ def _brand_logo_reference() -> bytes:
 
 
 def _place_logo_on_product(product_bytes: bytes, product_type: str) -> bytes:
-    """Second-pass edit: place the real brand logo onto the generated product."""
+    """Second-pass edit: place the brand mark onto the product with Muse Image."""
     prompt = (
         f"First image: a professional product photo of a {product_type}. "
-        "Second image: the official VyIQ × Nord Storia brand logo, an eight-pointed compass star. "
+        "Second image: the official VyIQ Nord Storia brand logo, an eight-pointed compass star. "
         f"Place this exact logo on the {product_type} as a small, elegant embroidered or printed brand mark "
-        "on the most natural spot (chest or upper front for clothing, center or side panel for bags, "
-        "side or tongue for sneakers, front panel for caps). "
-        "Reproduce the star shape exactly as shown in the second image, scaled realistically for the product, "
-        "with the thread or print color adapted to contrast subtly with the fabric. "
-        "Keep the product design, colors, pose, lighting and studio background exactly unchanged. "
+        "on the most natural spot. Reproduce the star shape exactly, scaled realistically, "
+        "with thread or print color adapted to contrast subtly with the fabric. "
+        "Keep the product design, colors, pose, lighting and background unchanged. "
         "Photorealistic commercial catalog quality. No text, no watermark."
     )
-    product_part = Part.from_bytes(data=product_bytes, mime_type="image/png")
-    logo_part = Part.from_bytes(data=_brand_logo_reference(), mime_type="image/png")
-    last_error = None
-
-    for model in GEMINI_IMAGE_MODELS:
-        try:
-            response = client.models.generate_content(
-                model=model,
-                contents=[prompt, product_part, logo_part],
-                config=GenerateContentConfig(
-                    response_modalities=["TEXT", "IMAGE"],
-                ),
-            )
-            if response.candidates:
-                for part in response.candidates[0].content.parts:
-                    if part.inline_data and part.inline_data.data:
-                        return part.inline_data.data
-        except Exception as e:
-            last_error = e
-            continue
-
-    print("LOGO PLACEMENT FALLBACK:", repr(last_error))
-    return product_bytes
-
-
-def _generate_product_image(prompt: str) -> bytes:
-    last_error = None
-
-    for model in IMAGEN_MODELS:
-        try:
-            response = client.models.generate_images(
-                model=model,
-                prompt=prompt,
-                config=GenerateImagesConfig(
-                    number_of_images=1,
-                    aspect_ratio="1:1",
-                ),
-            )
-            if response.generated_images:
-                generated = response.generated_images[0]
-                if generated.image and generated.image.image_bytes:
-                    return generated.image.image_bytes
-        except Exception as e:
-            last_error = e
-            continue
-
-    for model in GEMINI_IMAGE_MODELS:
-        try:
-            response = client.models.generate_content(
-                model=model,
-                contents=prompt,
-                config=GenerateContentConfig(
-                    response_modalities=["TEXT", "IMAGE"],
-                ),
-            )
-            if response.candidates:
-                for part in response.candidates[0].content.parts:
-                    if part.inline_data and part.inline_data.data:
-                        return part.inline_data.data
-        except Exception as e:
-            last_error = e
-            continue
-
-    raise Exception(f"Product generation failed: {last_error}")
-
-
-def _generate_campaign_image(prompt: str, source_image: bytes, mime_type: str = "image/png") -> bytes:
-    image_part = Part.from_bytes(data=source_image, mime_type=mime_type)
-    last_error = None
-
-    for model in GEMINI_IMAGE_MODELS:
-        for image_config in (
-            ImageConfig(aspect_ratio="16:9", image_size="2K"),
-            None,
-        ):
-            try:
-                response = client.models.generate_content(
-                    model=model,
-                    contents=[prompt, image_part],
-                    config=GenerateContentConfig(
-                        response_modalities=["TEXT", "IMAGE"],
-                        image_config=image_config,
-                    ),
-                )
-                if response.candidates:
-                    for part in response.candidates[0].content.parts:
-                        if part.inline_data and part.inline_data.data:
-                            return part.inline_data.data
-            except Exception as e:
-                last_error = e
-                continue
-
-    raise Exception(f"Campaign generation failed: {last_error}")
-
-
-def _generate_text(prompt: str) -> str:
-    last_error = None
-
-    for model in TEXT_MODELS:
-        try:
-            response = client.models.generate_content(
-                model=model,
-                contents=prompt,
-            )
-            if response.text:
-                return response.text.strip()
-        except Exception as e:
-            last_error = e
-            continue
-
-    raise Exception(f"Text generation failed: {last_error}")
+    try:
+        return _edit_images(prompt, [product_bytes, _brand_logo_reference()])
+    except Exception as e:
+        print("LOGO PLACEMENT FALLBACK: ", repr(e))
+        return product_bytes
 
 
 @app.get("/health")
 async def health():
     return {
         "status": "ok",
-        "project": PROJECT_ID,
-        "location": LOCATION,
+        "provider": "meta",
+        "image_model": IMAGE_MODEL,
+        "text_model": TEXT_MODEL,
+        "configured": bool(MODEL_API_KEY),
     }
 
 
@@ -344,72 +320,16 @@ async def try_on(
         with open(clothing_path, "wb") as f:
             f.write(clothing_data)
 
-        print("Calling Google Virtual Try-On...")
+        print("Calling Muse Image virtual try-on...")
 
         # -------------------------
-        # Google VTO
+        # Muse Image VTO (compose person + garment)
         # -------------------------
 
-        result = client.models.recontext_image(
-            model="virtual-try-on-001",
+        image_bytes = _try_on_image(person_data, clothing_data)
 
-            source=RecontextImageSource(
-                person_image=Image.from_file(
-                    location=person_path
-                ),
-
-                product_images=[
-                    ProductImage(
-                        product_image=Image.from_file(
-                            location=clothing_path
-                        )
-                    )
-                ],
-            ),
-        )
-
-        print("Google response:")
-        print(result)
-
-        # -------------------------
-        # Check result
-        # -------------------------
-
-        if not result.generated_images:
-            raise Exception(
-                "Google did not return any generated image"
-            )
-
-        generated = result.generated_images[0]
-
-        # Safety filter
-        if generated.rai_filtered_reason:
-
-            raise HTTPException(
-                status_code=400,
-                detail={
-                    "type": "IMAGE_FILTERED",
-                    "reason": generated.rai_filtered_reason,
-                },
-            )
-
-        if generated.image is None:
-            raise Exception(
-                "Generated image is empty"
-            )
-
-        if not generated.image.image_bytes:
-            raise Exception(
-                "Generated image bytes are empty"
-            )
-
-        # -------------------------
-        # Save result
-        # -------------------------
-
-        generated.image.save(
-            result_path
-        )
+        with open(result_path, "wb") as f:
+            f.write(image_bytes)
 
         print(
             f"Saved: {result_path}"

@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "dev:full": "npm run backend & next dev",
-    "backend": "cd TryON && python -m uvicorn main:app --reload --port 8000",
+    "backend": "cd TryON && python -m uvicorn main:app --reload --port 8001",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
